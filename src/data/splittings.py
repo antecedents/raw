@@ -54,9 +54,15 @@ class Splittings:
 
         return parent, child
 
-    def exc(self) -> typing.Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    def exc(self, f_training: float = 0.8, f_validating: float = 0.9) -> typing.Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
         """
 
+        :param f_training: If there are N instances, [f_training * N] instances are set aside for training.<br>
+        :param f_validating:<br>
+               * If f_validating less than 1.0,  [f_validating * (1 - f_training) * N] instances are set aside
+                 for validating, and [(1 - f_validating) * (1 - f_training) * N] for testing.<br>
+               * Otherwise, if f_validating = 1.0, [(1 - f_training) * N] instances are set aside for
+                 validating
         :return:
         training: pandas.DataFrame
             The training stage data
@@ -66,11 +72,10 @@ class Splittings:
             The testing stage data
         """
 
-        training, validating = self.__split(data=self.__frame, frac=self.__configurations.fraction)
+        training, validating = self.__split(data=self.__frame, frac=f_training)
 
-        if self.__configurations.aside > 0:
-            frac = 1 - self.__configurations.aside
-            validating, testing = self.__split(data=validating, frac=frac)
+        if f_validating < 1.0:
+            validating, testing = self.__split(data=validating, frac=f_validating)
         else:
             testing = None
 
