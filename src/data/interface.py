@@ -7,6 +7,7 @@ import pandas as pd
 import src.data.source
 import src.data.tags
 import src.data.specimens
+import src.data.splittings
 
 
 class Interface:
@@ -26,15 +27,17 @@ class Interface:
 
         self.__logger = logging.getLogger(__name__)
 
-    @staticmethod
-    def __raw():
+    def __raw(self) -> pd.DataFrame:
         """
         The raw data
 
         :return:
         """
 
-        return src.data.source.Source().exc()
+        data: pd.DataFrame = src.data.source.Source().exc()
+        self.__logger.info(data)
+
+        return data
 
     def __tags(self, data: pd.DataFrame) -> typing.Tuple[pd.DataFrame, dict, dict]:
         """
@@ -45,6 +48,7 @@ class Interface:
         """
 
         elements, enumerator, archetype = src.data.tags.Tags(data=data).exc()
+        self.__logger.info(elements)
         self.__logger.info(enumerator)
         self.__logger.info(archetype)
 
@@ -58,13 +62,9 @@ class Interface:
 
         # The raw data
         data = self.__raw()
-        self.__logger.info(data)
-        data.info()
 
         # The viable tags, etc.
         elements, enumerator, archetype = self.__tags(data=data)
-        self.__logger.info(elements)
-        elements.info()
 
         # The viable data instances vis-à-vis viable tags
         data: pd.DataFrame = data.copy().loc[data['category'].isin(values=elements['category'].unique()), :]
@@ -78,4 +78,8 @@ class Interface:
         self.__logger.info(frame.head())
         frame.info()
 
-
+        training, validating, testing = src.data.splittings.Splittings(
+            frame=frame).exc()
+        training.info()
+        validating.info()
+        testing.info()
