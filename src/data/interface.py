@@ -4,6 +4,7 @@ import logging
 import pandas as pd
 
 import src.data.source
+import src.data.tags
 
 
 class Interface:
@@ -32,5 +33,10 @@ class Interface:
         data: pd.DataFrame = src.data.source.Source().exc()
         self.__logger.info(data.head())
         self.__logger.info(data.tail())
+
+        elements, enumerator, archetype = src.data.tags.Tags(data=data).exc()
+        self.__logger.info(elements)
+        self.__logger.info(enumerator)
+        self.__logger.info(archetype)
 
 
