@@ -22,7 +22,7 @@ class Tags:
     def __init__(self, data: pd.DataFrame) -> None:
         """
 
-        :param data:
+        :param data: The modelling data
         """
 
         self.__tag_fields: list[str] = ['tag', 'annotation', 'category']
