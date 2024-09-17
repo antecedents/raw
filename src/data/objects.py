@@ -34,22 +34,22 @@ class Objects:
 
         return data
 
-    def __tags(self, data: pd.DataFrame) -> typing.Tuple[pd.DataFrame, dict, dict]:
+    def tags(self, blob: pd.DataFrame) -> typing.Tuple[pd.DataFrame, dict, dict]:
         """
         The viable tags, and the corresponding tags enumerator & archetype
 
-        :param data:
+        :param blob:
         :return:
         """
 
-        elements, enumerator, archetype = src.data.tags.Tags(data=data).exc()
+        elements, enumerator, archetype = src.data.tags.Tags(data=blob).exc()
         self.__logger.info(elements)
         self.__logger.info(enumerator)
         self.__logger.info(archetype)
 
         return elements, enumerator, archetype
 
-    def exc(self) -> pd.DataFrame:
+    def data(self) -> pd.DataFrame:
         """
 
         :return:
@@ -59,7 +59,7 @@ class Objects:
         data = self.__raw()
 
         # The viable tags, etc.
-        elements, enumerator, archetype = self.__tags(data=data)
+        elements, _, _ = self.tags(blob=data)
 
         # The viable data instances vis-à-vis viable tags
         data: pd.DataFrame = data.copy().loc[data['category'].isin(values=elements['category'].unique()), :]
