@@ -1,5 +1,6 @@
 """Module interface.py"""
 import logging
+import typing
 
 import pandas as pd
 
@@ -25,6 +26,30 @@ class Interface:
 
         self.__logger = logging.getLogger(__name__)
 
+    @staticmethod
+    def __raw():
+        """
+        The raw data
+
+        :return:
+        """
+
+        return src.data.source.Source().exc()
+
+    def __tags(self, data: pd.DataFrame) -> typing.Tuple[pd.DataFrame, dict, dict]:
+        """
+        The viable tags, and the corresponding tags enumerator & archetype
+
+        :param data:
+        :return:
+        """
+
+        elements, enumerator, archetype = src.data.tags.Tags(data=data).exc()
+        self.__logger.info(enumerator)
+        self.__logger.info(archetype)
+
+        return elements, enumerator, archetype
+
     def exc(self):
         """
 
@@ -32,15 +57,14 @@ class Interface:
         """
 
         # The raw data
-        data: pd.DataFrame = src.data.source.Source().exc()
-        self.__logger.info(data.head())
+        data = self.__raw()
+        self.__logger.info(data)
         data.info()
 
-        # The viable tags, and the corresponding tags enumerator & archetype
-        elements, enumerator, archetype = src.data.tags.Tags(data=data).exc()
+        # The viable tags, etc.
+        elements, enumerator, archetype = self.__tags(data=data)
         self.__logger.info(elements)
-        self.__logger.info(enumerator)
-        self.__logger.info(archetype)
+        elements.info()
 
         # The viable data instances vis-à-vis viable tags
         data: pd.DataFrame = data.copy().loc[data['category'].isin(values=elements['category'].unique()), :]
