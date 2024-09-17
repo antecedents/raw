@@ -3,7 +3,7 @@ import logging
 import pandas as pd
 
 
-class Demarcations:
+class Specimens:
     """
     Description
     -----------
