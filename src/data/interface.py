@@ -31,3 +31,6 @@ class Interface:
 
         data: pd.DataFrame = src.data.source.Source().exc()
         self.__logger.info(data.head())
+        self.__logger.info(data.tail())
+
+
