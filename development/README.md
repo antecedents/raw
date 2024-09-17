@@ -222,7 +222,6 @@ inspects complexity.
 
 ### Articles
 
-* [T5: Text-To-Text Transfer Transformer](https://huggingface.co/docs/transformers/tasks/summarization); [T5](https://huggingface.co/google-t5).
 * [Population Based Training](https://deepmind.google/discover/blog/population-based-training-of-neural-networks/), ([paper](https://arxiv.org/abs/1711.09846))
 
 <br>
@@ -262,10 +261,15 @@ inspects complexity.
 #### Logging: Model & System
 * [Logging and Outputs in Tune](https://docs.ray.io/en/latest/tune/tutorials/tune-output.html)
   * And, using TensorBoard
+  * [Loggers](https://docs.ray.io/en/latest/tune/tutorials/tune-output.html#how-to-build-custom-tune-loggers)
+  * [Logging](https://docs.ray.io/en/latest/tune/examples/includes/logging_example.html)
 * [TensorboardX](https://tensorboardx.readthedocs.io/en/latest/tutorial.html#what-is-tensorboard-x) (Pytorch)
 * [Ray Dashboard: Getting Started](https://docs.ray.io/en/latest/ray-observability/getting-started.html)
 * [Ray, Grafana, Prometheus](https://docs.ray.io/en/latest/cluster/configure-manage-dashboard.html#embed-grafana-visualizations-into-ray-dashboard)
 * [ray.init()](https://docs.ray.io/en/latest/ray-core/api/doc/ray.init.html)
+* [Application & Cluster Metrics](https://docs.ray.io/en/latest/cluster/metrics.html)
+* [Usage Stats Collection](https://docs.ray.io/en/latest/cluster/usage-stats.html)
+* [seqeval](https://huggingface.co/spaces/evaluate-metric/seqeval/blob/main/seqeval.py)
 
 <br>
 
@@ -273,6 +277,8 @@ inspects complexity.
 * [Distributed Communication](https://docs.w3cub.com/pytorch/distributed.html)
 * [PyTorch Distributed Overview](https://pytorch.org/tutorials/beginner/dist_overview.html)
 * [Get Started with Distributed Training using Hugging Face Transformers](https://docs.ray.io/en/latest/train/getting-started-transformers.html)
+* [Get Started with Distributed Training using Hugging Face Transformers](https://docs.ray.io/en/latest/train/getting-started-transformers.html#transformerstrainer-migration-guide)
+* [Token classification](https://huggingface.co/docs/transformers/tasks/token_classification)
 
 
 <br>
@@ -286,6 +292,17 @@ inspects complexity.
 * [to GGUF discussion](https://github.com/ggerganov/llama.cpp/discussions/2948)
 * [Hugging Face & GGUF](https://huggingface.co/docs/hub/gguf)
 
+<br>
+
+### Docker, etc.
+
+* [Setup Grafana with Prometheus for Python projects using Docker](https://dev.to/thedevtimeline/setup-grafana-with-prometheus-for-python-projects-using-docker-4o5g)
+* [Interactive shell using Docker Compose](https://betterstack.com/community/questions/question-interactive-shell-using-docker-compose/)
+* [Docker Compose Quickstart](https://docs.docker.com/compose/gettingstarted/)
+* [Development Environments](https://docs.docker.com/compose/intro/features-uses/#development-environments)
+* [Interactive Shell Using Docker](https://www.baeldung.com/ops/docker-compose-interactive-shell)
+* [Remote Development](https://www.docker.com/blog/containerized-python-development-part-1/)
+* [Django Development with Docker Compose and Machine](https://realpython.com/django-development-with-docker-compose-and-machine/)
 
 <br>
 <br>
