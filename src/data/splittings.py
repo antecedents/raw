@@ -1,3 +1,4 @@
+"""Module splittings.py"""
 import logging
 import typing
 
@@ -7,6 +8,9 @@ import config
 
 
 class Splittings:
+    """
+    Splits a dataframe into training, validating, and testing parts.
+    """
 
     def __init__(self, frame: pd.DataFrame) -> None:
         """
