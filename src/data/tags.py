@@ -12,12 +12,17 @@ class Tags:
     Tags
     ----
 
-    Examine data balance/imbalance by tag frequency.
+    Description
+    -----------
+    This class:
+        * Determines the viable tags via category frequency; tag ≡ annotation ⧺ category
+        * Enumerates the viable tags, and provides the inverse mappings.
     """
 
     def __init__(self, data: pd.DataFrame) -> None:
         """
-        Constructor
+
+        :param data:
         """
 
         self.__tag_fields: list[str] = ['tag', 'annotation', 'category']
