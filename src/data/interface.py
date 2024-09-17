@@ -5,6 +5,7 @@ import pandas as pd
 
 import src.data.source
 import src.data.tags
+import src.data.specimens
 
 
 class Interface:
@@ -42,8 +43,15 @@ class Interface:
         self.__logger.info(archetype)
 
         # The viable data instances vis-à-vis viable tags
-        data = data.copy().loc[data['category'].isin(values=elements['category'].unique()), :]
+        data: pd.DataFrame = data.copy().loc[data['category'].isin(values=elements['category'].unique()), :]
         self.__logger.info(data.head())
         data.info()
+
+        # Hence, the expected structure.  Within the preceding dataframe each distinct sentence
+        # is split across rows; a word per row, in order.  The Specimen class re-constructs the
+        # original sentences.
+        frame: pd.DataFrame = src.data.specimens.Specimens(data=data).exc()
+        self.__logger.info(frame.head())
+        frame.info()
 
 
