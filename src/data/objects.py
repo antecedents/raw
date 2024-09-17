@@ -49,7 +49,7 @@ class Objects:
 
         return elements, enumerator, archetype
 
-    def exc(self):
+    def exc(self) -> pd.DataFrame:
         """
 
         :return:
@@ -72,3 +72,5 @@ class Objects:
         frame: pd.DataFrame = src.data.specimens.Specimens(data=data).exc()
         self.__logger.info(frame.head())
         frame.info()
+
+        return frame
