@@ -18,11 +18,10 @@ class Splittings:
         :param data: The data set for the modelling stages
         """
 
-        self.__data = data
+        self.__data: pd.DataFrame = data
 
         # Configurations
         self.__configurations = config.Config()
-
 
         # Logging
         logging.basicConfig(level=logging.INFO,
@@ -48,9 +47,6 @@ class Splittings:
 
         parent.reset_index(drop=True, inplace=True)
         child.reset_index(drop=True, inplace=True)
-
-        self.__logger.info('parent: %s', parent.shape)
-        self.__logger.info('child: %s', child.shape)
 
         return parent, child
 
