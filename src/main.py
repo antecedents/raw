@@ -29,7 +29,7 @@ def main():
     # is split across rows; a word per row, in order.  The Specimen class re-constructs the
     # original sentences.
     data: pd.DataFrame = data.copy().loc[data['category'].isin(values=elements['category'].unique()), :]
-    specimens = src.data.specimens.Specimens(data=data, elements=elements).exc()
+    specimens: pd.DataFrame = src.data.specimens.Specimens(data=data, elements=elements).exc()
 
 
 if __name__ == '__main__':
