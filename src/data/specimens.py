@@ -1,3 +1,4 @@
+"""Module specimens.py"""
 import logging
 
 import pandas as pd
@@ -27,7 +28,7 @@ class Specimens:
         # The viable data instances vis-à-vis viable tags
         self.__data: pd.DataFrame = data.copy().loc[data['category'].isin(values=elements['category'].unique()), :]
         self.__data.info()
-        
+
     @staticmethod
     def __sentences(blob: pd.DataFrame) -> pd.DataFrame:
         """
