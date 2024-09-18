@@ -4,7 +4,6 @@ import os
 import sys
 
 import pandas as pd
-
 import torch
 
 
@@ -31,6 +30,9 @@ def main():
     data: pd.DataFrame = data.copy().loc[data['category'].isin(values=elements['category'].unique()), :]
     specimens: pd.DataFrame = src.data.specimens.Specimens(data=data, elements=elements).exc()
 
+    # Modelling
+    src.models.interface.Interface(specimens=specimens).exc()
+
 
 if __name__ == '__main__':
 
@@ -48,5 +50,6 @@ if __name__ == '__main__':
     import src.data.tags
     import src.data.encodings
     import src.data.specimens
+    import src.models.interface
 
     main()
