@@ -1,10 +1,10 @@
-"""Module specimens.py"""
+"""Module structuring.py"""
 import logging
 
 import pandas as pd
 
 
-class Specimens:
+class Structuring:
     """
     Description
     -----------
