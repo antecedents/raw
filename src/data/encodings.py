@@ -1,4 +1,5 @@
 """Module encodings.py"""
+import logging
 import typing
 
 import pandas as pd
@@ -11,7 +12,15 @@ class Encodings:
     """
 
     def __init__(self):
-        pass
+        """
+        Constructor
+        """
+
+        # Logging
+        logging.basicConfig(level=logging.INFO,
+                            format='\n\n%(message)s\n%(asctime)s.%(msecs)03d',
+                            datefmt='%Y-%m-%d %H:%M:%S')
+        self.__logger = logging.getLogger(__name__)
 
 
     @staticmethod
@@ -29,7 +38,7 @@ class Encodings:
 
         return enumerator, archetype
 
-    def __exc(self, elements: pd.DataFrame):
+    def exc(self, elements: pd.DataFrame) -> typing.Tuple[dict, dict]:
         """
 
         :param elements: pd.DataFrame: tag | annotation | category
@@ -37,5 +46,7 @@ class Encodings:
         """
 
         enumerator, archetype = self.__coding(series=elements['tag'])
+        self.__logger.info(enumerator)
+        self.__logger.info(archetype)
 
         return enumerator, archetype
