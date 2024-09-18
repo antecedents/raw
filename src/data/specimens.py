@@ -26,8 +26,7 @@ class Specimens:
         self.__logger = logging.getLogger(__name__)
 
         # The viable data instances vis-à-vis viable tags
-        self.__data: pd.DataFrame = data.copy().loc[data['category'].isin(values=elements['category'].unique()), :]
-        self.__data.info()
+        self.__data: pd.DataFrame = data
 
     @staticmethod
     def __sentences(blob: pd.DataFrame) -> pd.DataFrame:
