@@ -1,7 +1,6 @@
 """Module interface.py"""
 import logging
 
-import datasets
 import pandas as pd
 
 import src.data.interface
