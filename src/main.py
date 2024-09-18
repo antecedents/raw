@@ -21,6 +21,8 @@ def main():
     # Hence
     data = src.data.source.Source().exc()
     elements = src.data.tags.Tags(data=data).exc()
+    enumerator, archetype = src.data.encodings.Encodings().exc(elements=elements)
+
 
     # Hence, the expected structure.  Within the preceding dataframe each distinct sentence
     # is split across rows; a word per row, in order.  The Specimen class re-constructs the
@@ -42,6 +44,7 @@ if __name__ == '__main__':
     # Classes
     import src.data.source
     import src.data.tags
+    import src.data.encodings
     import src.data.specimens
 
     main()
