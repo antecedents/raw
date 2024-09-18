@@ -19,7 +19,7 @@ class Steps:
             N_TRAIN=self.__splittings.training.shape[0], N_VALID=self.__splittings.validating.shape[0],
             N_TEST=self.__splittings.testing.shape[0])
 
-        self.__tokenizer = src.models.bert.tokenizer.Tokenizer()
+        self.__tokenizer = src.models.bert.tokenizer.Tokenizer().exc()
 
         # Logging
         logging.basicConfig(level=logging.INFO,
@@ -36,7 +36,7 @@ class Steps:
         testing = dt.Dataset(frame=self.__splittings.testing, variable=self.__variable,
                              enumerator=self.__enumerator, tokenizer=self.__tokenizer)
 
-        self.__logger.info(training)
+        self.__logger.info(training[0])
         self.__logger.info(type(training))
 
         self.__logger.info(validating)
