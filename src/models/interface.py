@@ -1,3 +1,4 @@
+"""Module interface.py"""
 import logging
 
 import datasets
@@ -39,4 +40,3 @@ class Interface:
         data: datasets.DatasetDict = self.__api.get_datasets()
 
         self.__logger.info(data.keys())
-
