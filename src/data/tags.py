@@ -1,6 +1,5 @@
 """Module tags.py"""
 import logging
-import typing
 
 import pandas as pd
 
@@ -14,19 +13,23 @@ class Tags:
 
     Description
     -----------
-    This class:
-        * Determines the viable tags via category frequency; tag ≡ annotation ⧺ category
-        * Enumerates the viable tags, and provides the inverse mappings.
+    This class determines the viable tags via category
+    frequency; tag ≡ annotation ⧺ category
+
     """
 
     def __init__(self, data: pd.DataFrame) -> None:
         """
+        A data frame that includes the tag, annotation, and category
+        fields; remember, tag ≡ annotation ⧺ category
 
         :param data: The modelling data
         """
 
+        self.__data = data
+
+        # Tag fields
         self.__tag_fields: list[str] = ['tag', 'annotation', 'category']
-        self.__tag_data: pd.DataFrame = data.copy()[self.__tag_fields]
 
         # Categories
         self.__mcf: int = config.Config().minimum_category_frequency
@@ -37,7 +40,21 @@ class Tags:
                             datefmt='%Y-%m-%d %H:%M:%S')
         self.__logger: logging.Logger = logging.getLogger(name=__name__)
 
-    def __viable(self, blob: pd.DataFrame) -> pd.DataFrame:
+    def __tag_data(self):
+        """
+
+        :return:
+        """
+
+        frame = self.__data.copy()[self.__tag_fields]
+
+        # Frequencies
+        elements: pd.DataFrame = frame.groupby(by=self.__tag_fields).value_counts().to_frame()
+        elements.reset_index(drop=False, inplace=True)
+
+        return elements
+
+    def __applicable(self, blob: pd.DataFrame) -> pd.DataFrame:
         """
         
         :param blob: A frame that includes {category}, and {count} per category
@@ -51,39 +68,17 @@ class Tags:
         elements.sort_values(by='tag', inplace=True)
 
         return elements
-    
-    @staticmethod
-    def __coding(series: pd.Series) -> typing.Tuple[dict, dict]:
-        """
-        Tags enumeration, and their inverse mappings.
 
-        :param series:
-        :return:
-        """
-
-        enumerator = {k: v for v, k in enumerate(iterable=series)}
-
-        archetype = {v: k for v, k in enumerate(iterable=series)}
-
-        return enumerator, archetype
-
-
-    def exc(self) -> typing.Tuple[pd.DataFrame, dict, dict]:
+    def exc(self) -> pd.DataFrame:
         """
 
         :return:
         """
 
-        # Frequencies
-        elements: pd.DataFrame = self.__tag_data.groupby(by=self.__tag_fields).value_counts().to_frame()
-        elements.reset_index(drop=False, inplace=True)
+        # The tag data, including the count per distinct tag
+        elements = self.__tag_data()
 
-        # Focusing on viable categories
-        elements = self.__viable(blob=elements)
+        # Focusing on viable/applicable categories
+        elements = self.__applicable(blob=elements)
 
-        # Coding
-        enumerator: dict
-        archetype: dict
-        enumerator, archetype = self.__coding(series=elements['tag'])
-
-        return elements, enumerator, archetype
+        return elements
