@@ -14,6 +14,9 @@ class Structuring:
 
     def __init__(self, data: pd.DataFrame) -> None:
         """
+        Creates the expected structure.  Within <data> each distinct sentence
+        is split across rows; a word per row, in order.  The Specimen class re-constructs the
+        original sentences.
 
         :param data:
         """
