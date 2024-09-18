@@ -24,14 +24,12 @@ def main():
     elements = src.data.tags.Tags(data=data).exc()
     enumerator, archetype = src.data.encodings.Encodings().exc(elements=elements)
 
-    # Hence, the expected structure.  Within the preceding dataframe each distinct sentence
-    # is split across rows; a word per row, in order.  The Specimen class re-constructs the
-    # original sentences.
-    data: pd.DataFrame = data.copy().loc[data['category'].isin(values=elements['category'].unique()), :]
-    specimens: pd.DataFrame = src.data.specimens.Specimens(data=data, elements=elements).exc()
+    filtering = src.data.filtering.Filtering()
+    data = filtering(data=data, elements=elements)
 
-    # Modelling
-    src.models.interface.Interface(specimens=specimens).exc()
+
+
+
 
 
 if __name__ == '__main__':
@@ -49,7 +47,7 @@ if __name__ == '__main__':
     import src.data.encodings
     import src.models.interface
     import src.data.source
-    import src.data.specimens
+    import src.data.filtering
     import src.data.tags
 
     main()
