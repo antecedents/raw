@@ -1,3 +1,4 @@
+"""Module source.py"""
 import os
 
 import dask.dataframe as dfr
@@ -7,16 +8,24 @@ import config
 
 
 class Source:
+    """
+    Reads-in the raw data
+    """
 
     def __init__(self) -> None:
-        
+        """
+        Construction
+        """
+
+        # The location of the raw data
         self.__datapath = config.Config().datapath 
 
+        # Naming convention
         self.__names: dict[str, str] = {'Word': 'word', 'POS': 'part', 'Tag': 'tag'}
 
     def __read(self) -> dfr.DataFrame:
         """
-        Reads-in the modelling data set.
+        Reads-in the data set.
 
         :return:
         """
