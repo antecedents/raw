@@ -24,12 +24,12 @@ def main():
     elements = src.data.tags.Tags(data=data).exc()
     enumerator, archetype = src.data.encodings.Encodings().exc(elements=elements)
 
+    # Filtering
     filtering = src.data.filtering.Filtering()
     data = filtering(data=data, elements=elements)
 
-
-
-
+    # Structuring
+    data = src.data.structuring.Structuring(data=data).exc()
 
 
 if __name__ == '__main__':
@@ -48,6 +48,7 @@ if __name__ == '__main__':
     import src.models.interface
     import src.data.source
     import src.data.filtering
+    import src.data.structuring
     import src.data.tags
 
     main()
