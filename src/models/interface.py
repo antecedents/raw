@@ -37,6 +37,7 @@ class Interface:
         :return:
         """
 
-        data: datasets.DatasetDict = self.__api.get_datasets()
+        data = self.__api.get_rays()
 
+        self.__logger.info(type(data))
         self.__logger.info(data.keys())
