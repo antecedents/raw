@@ -11,13 +11,12 @@ class Specimens:
     This class builds the expected data structure for ...
     """
 
-    def __init__(self, data: pd.DataFrame) -> None:
+    def __init__(self, data: pd.DataFrame, elements: pd.DataFrame) -> None:
         """
 
         :param data:
+        :param elements:
         """
-        
-        self.__data: pd.DataFrame = data
 
         # Logging
         logging.basicConfig(level=logging.INFO,
@@ -25,6 +24,10 @@ class Specimens:
                             datefmt='%Y-%m-%d %H:%M:%S')
         self.__logger = logging.getLogger(__name__)
 
+        # The viable data instances vis-à-vis viable tags
+        self.__data: pd.DataFrame = data.copy().loc[data['category'].isin(values=elements['category'].unique()), :]
+        self.__data.info()
+        
     @staticmethod
     def __sentences(blob: pd.DataFrame) -> pd.DataFrame:
         """
