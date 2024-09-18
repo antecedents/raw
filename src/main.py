@@ -31,6 +31,10 @@ def main():
     # Structuring
     data = src.data.structuring.Structuring(data=data).exc()
 
+    # Modelling
+    src.models.interface.Interface(
+        data=data, enumerator=enumerator, archetype=archetype).exc(architecture='bert')
+
 
 if __name__ == '__main__':
 
