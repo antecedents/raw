@@ -4,6 +4,7 @@ import typing
 
 import pandas as pd
 import datasets
+import ray.data
 
 import src.data.splittings
 
@@ -50,5 +51,12 @@ class Interface:
         })
 
 
-    def get_rays(self):
-        pass
+    def get_rays(self) -> dict[str, ray.data.dataset.MaterializedDataset]:
+
+        __datasets = self.get_datasets()
+
+        return {
+            'train': ray.data.from_huggingface(__datasets['train']),
+            'validate': ray.data.from_huggingface(__datasets['validate']),
+            'test': ray.data.from_huggingface(__datasets['test'])
+        }
