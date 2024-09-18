@@ -73,6 +73,7 @@ class Tags:
         """
 
         :return:
+            pd.DataFrame: tag | annotation | category
         """
 
         # The tag data, including the count per distinct tag
