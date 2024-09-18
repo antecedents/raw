@@ -46,10 +46,10 @@ if __name__ == '__main__':
                         datefmt='%Y-%m-%d %H:%M:%S')
 
     # Classes
-    import src.data.source
-    import src.data.tags
     import src.data.encodings
-    import src.data.specimens
     import src.models.interface
+    import src.data.source
+    import src.data.specimens
+    import src.data.tags
 
     main()
