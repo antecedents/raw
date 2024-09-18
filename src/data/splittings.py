@@ -5,6 +5,7 @@ import typing
 import pandas as pd
 
 import config
+import src.elements.frames as fra
 
 
 class Splittings:
@@ -50,7 +51,7 @@ class Splittings:
 
         return parent, child
 
-    def exc(self, f_training: float = 0.8, f_validating: float = 0.9) -> typing.Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    def exc(self, f_training: float = 0.8, f_validating: float = 0.9) -> fra.Frames:
         """
 
         :param f_training: If there are N instances, [f_training * N] instances are set aside for training.<br>
@@ -60,12 +61,8 @@ class Splittings:
                * Otherwise, if f_validating = 1.0, [(1 - f_training) * N] instances are set aside for
                  validating
         :return:
-        training: pandas.DataFrame
-            The training stage data
-        validating: pandas.DataFrame
-            The validating stage data
-        testing: pandas.DataFrame
-            The testing stage data
+            src.elements.frames.Frames(
+                training: pandas.DataFrame, validating: pandas.DataFrame, testing: pandas.DataFrame)
         """
 
         training, validating = self.__split(data=self.__data, frac=f_training)
@@ -75,4 +72,7 @@ class Splittings:
         else:
             testing = None
 
-        return training, validating, testing
+        frames = fra.Frames(
+            training=training, validating=validating, testing=testing)
+
+        return frames
