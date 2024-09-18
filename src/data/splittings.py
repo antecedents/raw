@@ -12,13 +12,13 @@ class Splittings:
     Splits a dataframe into training, validating, and testing parts.
     """
 
-    def __init__(self, frame: pd.DataFrame) -> None:
+    def __init__(self, data: pd.DataFrame) -> None:
         """
 
-        :param frame: The data set for the modelling stages
+        :param data: The data set for the modelling stages
         """
 
-        self.__frame = frame
+        self.__data = data
 
         # Configurations
         self.__configurations = config.Config()
@@ -72,7 +72,7 @@ class Splittings:
             The testing stage data
         """
 
-        training, validating = self.__split(data=self.__frame, frac=f_training)
+        training, validating = self.__split(data=self.__data, frac=f_training)
 
         if f_validating < 1.0:
             validating, testing = self.__split(data=validating, frac=f_validating)
