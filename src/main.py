@@ -3,6 +3,8 @@ import logging
 import os
 import sys
 
+import pandas as pd
+
 import torch
 
 
@@ -18,15 +20,15 @@ def main():
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     logger.info(msg=device)
 
-    # Hence
+    # The raw data
     data = src.data.source.Source().exc()
     elements = src.data.tags.Tags(data=data).exc()
     enumerator, archetype = src.data.encodings.Encodings().exc(elements=elements)
 
-
     # Hence, the expected structure.  Within the preceding dataframe each distinct sentence
     # is split across rows; a word per row, in order.  The Specimen class re-constructs the
     # original sentences.
+    data: pd.DataFrame = data.copy().loc[data['category'].isin(values=elements['category'].unique()), :]
     specimens = src.data.specimens.Specimens(data=data, elements=elements).exc()
 
 
