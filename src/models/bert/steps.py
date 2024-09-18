@@ -37,5 +37,10 @@ class Steps:
                              enumerator=self.__enumerator, tokenizer=self.__tokenizer)
 
         self.__logger.info(training)
+        self.__logger.info(type(training))
+
         self.__logger.info(validating)
+        self.__logger.info(type(validating))
+
         self.__logger.info(testing)
+        self.__logger.info(type(testing))
