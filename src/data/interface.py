@@ -10,7 +10,7 @@ import src.data.splittings
 
 class Interface:
     """
-    Interface
+    Interface: Data
     """
 
     def __init__(self, data: pd.DataFrame):
