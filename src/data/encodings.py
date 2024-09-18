@@ -1,6 +1,8 @@
 """Module encodings.py"""
 import typing
+
 import pandas as pd
+
 
 class Encodings:
     """
