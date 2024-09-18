@@ -19,7 +19,13 @@ def main():
     logger.info(msg=device)
 
     # Hence
-    src.data.interface.Interface().exc()
+    data = src.data.source.Source().exc()
+    elements = src.data.tags.Tags(data=data).exc()
+
+    # Hence, the expected structure.  Within the preceding dataframe each distinct sentence
+    # is split across rows; a word per row, in order.  The Specimen class re-constructs the
+    # original sentences.
+    specimens = src.data.specimens.Specimens(data=data, elements=elements).exc()
 
 
 if __name__ == '__main__':
@@ -34,6 +40,8 @@ if __name__ == '__main__':
                         datefmt='%Y-%m-%d %H:%M:%S')
 
     # Classes
-    import src.data.interface
+    import src.data.source
+    import src.data.tags
+    import src.data.specimens
 
     main()
