@@ -5,6 +5,7 @@ import pandas as pd
 
 import src.data.splittings
 import src.elements.frames as fra
+import src.models.bert.steps
 
 
 class Interface:
@@ -12,13 +13,17 @@ class Interface:
     Interface: Models
     """
 
-    def __init__(self, data: pd.DataFrame):
+    def __init__(self, data: pd.DataFrame, enumerator: dict, archetype: dict):
         """
 
         :param data:
+        :param enumerator:
+        :param archetype:
         """
 
-        splittings: fra.Frames = src.data.splittings.Splittings(data=data).exc()
+        self.__splittings: fra.Frames = src.data.splittings.Splittings(data=data).exc()
+        self.__enumerator = enumerator
+        self.__archetype = archetype
 
         # Logging
         logging.basicConfig(level=logging.INFO,
@@ -36,7 +41,8 @@ class Interface:
 
         match architecture:
             case 'bert':
-                self.__logger.info('...')
+                src.models.bert.steps.Steps(
+                    splittings=self.__splittings, enumerator=self.__enumerator, archetype=self.__archetype).exc()
             case 'distil':
                 self.__logger.info('...')
             case 'electra':
