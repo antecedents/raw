@@ -4,7 +4,7 @@ import logging
 import pandas as pd
 
 import src.data.splittings
-import src.elements.frames as fra
+import src.elements.frames as fr
 import src.models.bert.steps
 
 
@@ -21,7 +21,7 @@ class Interface:
         :param archetype:
         """
 
-        self.__splittings: fra.Frames = src.data.splittings.Splittings(data=data).exc()
+        self.__splittings: fr.Frames = src.data.splittings.Splittings(data=data).exc()
         self.__enumerator = enumerator
         self.__archetype = archetype
 
