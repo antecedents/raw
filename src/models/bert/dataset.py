@@ -1,3 +1,4 @@
+"""Module dataset.py"""
 import numpy as np
 import pandas as pd
 import torch
@@ -8,6 +9,9 @@ import src.elements.variable as vr
 
 
 class Dataset(torch.utils.data.Dataset):
+    """
+    Class Dataset
+    """
 
     def __init__(self, frame: pd.DataFrame, variable: vr.Variable,
                  enumerator: dict, tokenizer: transformers.tokenization_utils_base) -> None:
@@ -16,6 +20,7 @@ class Dataset(torch.utils.data.Dataset):
         :param frame:
         :param variable:
         :param enumerator:
+        :param tokenizer:
         """
 
         super().__init__()
