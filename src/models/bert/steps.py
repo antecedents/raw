@@ -1,10 +1,12 @@
 """Module steps.py"""
 import logging
 
+import ray.data.dataset
+
 import src.elements.frames as fr
 import src.elements.variable as vr
-import src.models.bert.dataset as dt
 import src.models.bert.tokenizer
+import src.data.datatypes
 
 
 class Steps:
@@ -42,13 +44,8 @@ class Steps:
         :return:
         """
 
-        training = dt.Dataset(frame=self.__splittings.training, variable=self.__variable,
-                              enumerator=self.__enumerator, tokenizer=self.__tokenizer)
-        validating = dt.Dataset(frame=self.__splittings.validating, variable=self.__variable,
-                                enumerator=self.__enumerator, tokenizer=self.__tokenizer)
-        testing = dt.Dataset(frame=self.__splittings.testing, variable=self.__variable,
-                             enumerator=self.__enumerator, tokenizer=self.__tokenizer)
+        data: dict[str, ray.data.dataset.MaterializedDataset] = src.data.datatypes.Datatypes(
+            splittings=self.__splittings).get_rays()
 
-        self.__logger.info(training[9].keys())
-        self.__logger.info(validating[9].keys())
-        self.__logger.info(testing[9].keys())
+        self.__logger.info(type(data))
+        self.__logger.info(data)
