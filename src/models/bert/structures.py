@@ -20,19 +20,19 @@ class Structures:
     Builds and delivers the data structures per modelling stage
     """
 
-    def __init__(self, enumerator: dict, variable: vr.Variable, frames: fr.Frames,
+    def __init__(self, enumerator: dict, variable: vr.Variable, splittings: fr.Frames,
                  tokenizer: transformers.tokenization_utils_base):
         """
 
         :param enumerator:
         :param variable:
-        :param frames:
+        :param splittings:
         """
 
         # A set of values, and data, for machine learning model development
         self.__enumerator = enumerator
         self.__variable = variable
-        self.__frames = frames
+        self.__splittings = splittings
 
         self.__tokenizer = tokenizer
 
@@ -75,7 +75,7 @@ class Structures:
         parameters = {'batch_size': self.__variable.TRAIN_BATCH_SIZE,
                       'shuffle': True, 'num_workers': 0}
 
-        return self.__structure(frame=self.__frames.training, parameters=parameters)
+        return self.__structure(frame=self.__splittings.training, parameters=parameters)
 
     def validating(self) -> sr.Structures:
         """
@@ -88,7 +88,7 @@ class Structures:
         parameters = {'batch_size': self.__variable.VALID_BATCH_SIZE,
                       'shuffle': True, 'num_workers': 0}
 
-        return self.__structure(frame=self.__frames.validating, parameters=parameters)
+        return self.__structure(frame=self.__splittings.validating, parameters=parameters)
 
     def testing(self) -> sr.Structures:
         """
@@ -101,4 +101,4 @@ class Structures:
         parameters = {'batch_size': self.__variable.TEST_BATCH_SIZE,
                       'shuffle': True, 'num_workers': 0}
 
-        return self.__structure(frame=self.__frames.testing, parameters=parameters)
+        return self.__structure(frame=self.__splittings.testing, parameters=parameters)
