@@ -1,4 +1,4 @@
-
+"""Module steps.py"""
 import logging
 
 import src.elements.frames as fa
@@ -8,8 +8,17 @@ import src.models.bert.tokenizer
 
 
 class Steps:
+    """
+    Class Steps
+    """
 
     def __init__(self, splittings: fa.Frames, enumerator: dict, archetype: dict):
+        """
+
+        :param splittings:
+        :param enumerator:
+        :param archetype:
+        """
 
         self.__splittings = splittings
         self.__enumerator = enumerator
@@ -28,6 +37,10 @@ class Steps:
         self.__logger = logging.getLogger(__name__)
 
     def exc(self):
+        """
+
+        :return:
+        """
 
         training = dt.Dataset(frame=self.__splittings.training, variable=self.__variable,
                               enumerator=self.__enumerator, tokenizer=self.__tokenizer)
@@ -36,11 +49,6 @@ class Steps:
         testing = dt.Dataset(frame=self.__splittings.testing, variable=self.__variable,
                              enumerator=self.__enumerator, tokenizer=self.__tokenizer)
 
-        self.__logger.info(training[0])
-        self.__logger.info(type(training))
-
-        self.__logger.info(validating[0])
-        self.__logger.info(type(validating))
-
-        self.__logger.info(testing[0])
-        self.__logger.info(type(testing))
+        self.__logger.info(training[0].keys())
+        self.__logger.info(validating[0].keys())
+        self.__logger.info(testing[0].keys())
