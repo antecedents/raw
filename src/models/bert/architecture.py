@@ -6,6 +6,7 @@ class Architecture:
     def __init__(self):
         pass
 
-    def exc(self, config: dict):
+    @staticmethod
+    def exc(config: dict):
 
         logging.info(config)
