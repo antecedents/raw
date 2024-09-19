@@ -6,6 +6,11 @@ import src.elements.frames as fr
 
 
 class Datatypes:
+    """
+    Class Datatypes
+
+    Provides different formats of the data splits.
+    """
 
     def __init__(self, splittings: fr.Frames):
         """
@@ -16,6 +21,11 @@ class Datatypes:
         self.__splittings = splittings
 
     def get_datasets(self) -> datasets.DatasetDict:
+        """
+        The datasets.DatasetDict format of the data splits
+
+        :return:
+        """
 
         return datasets.DatasetDict({
             'train': datasets.Dataset.from_pandas(self.__splittings.training),
@@ -24,6 +34,11 @@ class Datatypes:
         })
 
     def get_rays(self) -> dict[str, ray.data.dataset.MaterializedDataset]:
+        """
+        The ray data format of the huggingface.co Datasets in datasets.DatasetDict
+
+        :return:
+        """
 
         __datasets = self.get_datasets()
 
