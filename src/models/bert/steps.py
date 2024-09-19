@@ -1,7 +1,7 @@
 """Module steps.py"""
 import logging
 
-import src.elements.frames as fa
+import src.elements.frames as fr
 import src.elements.variable as vr
 import src.models.bert.dataset as dt
 import src.models.bert.tokenizer
@@ -12,7 +12,7 @@ class Steps:
     Class Steps
     """
 
-    def __init__(self, splittings: fa.Frames, enumerator: dict, archetype: dict):
+    def __init__(self, splittings: fr.Frames, enumerator: dict, archetype: dict):
         """
 
         :param splittings:
