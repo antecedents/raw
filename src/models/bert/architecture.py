@@ -1,5 +1,7 @@
 import logging
 
+import ray.train
+
 
 class Architecture:
 
@@ -10,3 +12,7 @@ class Architecture:
     def exc(config: dict):
 
         logging.info(config)
+
+        # Data & Tokens
+        training = ray.train.get_dataset_shard("train")
+        evaluating = ray.train.get_dataset_shard("eval")
