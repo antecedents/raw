@@ -47,5 +47,5 @@ class Steps:
         data: dict[str, ray.data.dataset.MaterializedDataset] = src.data.datatypes.Datatypes(
             splittings=self.__splittings).get_rays()
 
-        self.__logger.info(type(data))
         self.__logger.info(data)
+        self.__logger.info(data['train'].take(1))
