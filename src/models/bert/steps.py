@@ -49,6 +49,6 @@ class Steps:
         testing = dt.Dataset(frame=self.__splittings.testing, variable=self.__variable,
                              enumerator=self.__enumerator, tokenizer=self.__tokenizer)
 
-        self.__logger.info(training[0].keys())
-        self.__logger.info(validating[0].keys())
-        self.__logger.info(testing[0].keys())
+        self.__logger.info(training[9].keys())
+        self.__logger.info(validating[9].keys())
+        self.__logger.info(testing[9].keys())
