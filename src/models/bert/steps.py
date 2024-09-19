@@ -39,8 +39,8 @@ class Steps:
         self.__logger.info(training[0])
         self.__logger.info(type(training))
 
-        self.__logger.info(validating)
+        self.__logger.info(validating[0])
         self.__logger.info(type(validating))
 
-        self.__logger.info(testing)
+        self.__logger.info(testing[0])
         self.__logger.info(type(testing))
