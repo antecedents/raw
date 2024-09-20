@@ -8,8 +8,8 @@ import transformers
 import src.elements.frames as fr
 import src.elements.structures as sr
 import src.elements.variable as vr
-import src.models.bert.dataset
-import src.models.bert.loadings
+import src.models.bert.fundamentals.dataset
+import src.models.bert.fundamentals.loadings
 
 
 class Structures:
@@ -37,7 +37,7 @@ class Structures:
         self.__tokenizer = tokenizer
 
         # For DataLoader creation
-        self.__loadings = src.models.bert.loadings.Loadings()
+        self.__loadings = src.models.bert.fundamentals.loadings.Loadings()
 
         # Logging
         logging.basicConfig(level=logging.INFO,
@@ -55,7 +55,7 @@ class Structures:
             torch.util.data.DataLoader
         """
 
-        dataset = src.models.bert.dataset.Dataset(
+        dataset = src.models.bert.fundamentals.dataset.Dataset(
             frame=frame, variable=self.__variable, enumerator=self.__enumerator,
             tokenizer=self.__tokenizer)
 
