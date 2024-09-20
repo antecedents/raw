@@ -1,15 +1,16 @@
 """Module interface.py: The bert interface."""
 import logging
 
-import src.models.bert.architecture
-import src.elements.variable as vr
-import src.models.bert.settings
-import src.models.bert.parameters
-
-import ray.train.torch
 import ray.train
+import ray.train.torch
 import ray.tune
 import ray.tune.schedulers
+
+import config
+import src.elements.variable as vr
+import src.models.bert.architecture
+import src.models.bert.parameters
+import src.models.bert.settings
 
 
 class Interface:
@@ -27,6 +28,7 @@ class Interface:
         self.__variable = variable
         self.__enumerator = enumerator
 
+        # Parameters, and their arguments.
         self.__parameters = src.models.bert.parameters.Parameters()
 
         # Additionally
@@ -54,7 +56,8 @@ class Interface:
                     'learning_rate': ray.tune.grid_search([0.01, 0.02]),
                     'weight_decay': ray.tune.grid_search([0.1, 0.2]),
                     'variable': self.__variable,
-                    'enumerator': self.__enumerator
+                    'enumerator': self.__enumerator,
+                    'seed': config.Config().seed
                 },
                 'scaling_config': ray.train.ScalingConfig(
                     num_workers=self.__variable.N_GPU, use_gpu=True, trainer_resources={'CPU': self.__variable.N_CPU})
