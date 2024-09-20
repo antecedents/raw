@@ -52,7 +52,11 @@ class Special:
             if mapping[0] == 0 and mapping[1] != 0 and iteration < limit:
                 ela[iteration] = labels[iteration]
 
+        # Hence, set.
         encoding['labels'] = ela
-        item = {key: torch.as_tensor(value) for key, value in encoding.items()}
+
+        # Beware of the steps herein: (a) as tensors, and (b) to graphics processing unit, i.e.,
+        # CUDA (computer unified device architecture)
+        item = {key: torch.as_tensor(value).cuda() for key, value in encoding.items()}
 
         return item
