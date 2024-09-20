@@ -94,4 +94,3 @@ class Metrics:
             "recall": results["overall_recall"],
             "f1": results["overall_f1"],
         }
-    
