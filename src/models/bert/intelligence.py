@@ -30,6 +30,20 @@ class Intelligence:
         return transformers.DataCollatorForTokenClassification(tokenizer=tokenizer)
 
     def model(self):
+        """
+        https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoConfig
+        config = transformers.AutoConfig.from_pretrained(
+                    pretrained_model_name_or_path=self.__parameters.pretrained_model_name,
+                    **{'num_labels': len(self.__enumerator),
+                       'id2label': self.__enumerator,
+                       'label2id': self.__archetype})
+
+        https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoModelForTokenClassification
+        transformers.AutoModelForTokenClassification.from_pretrained(
+            pretrained_model_name_or_path=self.__parameters.pretrained_model_name, config=config)
+
+        :return:
+        """
 
         config = transformers.BertConfig.from_pretrained(
             pretrained_model_name_or_path=self.__parameters.pretrained_model_name,
@@ -40,4 +54,3 @@ class Intelligence:
         return transformers.BertForTokenClassification.from_pretrained(
             pretrained_model_name_or_path=self.__parameters.pretrained_model_name,
             config=config)
-
