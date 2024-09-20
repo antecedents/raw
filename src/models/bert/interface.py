@@ -1,4 +1,4 @@
-
+"""Module interface.py: The bert interface."""
 import logging
 
 import src.models.bert.architecture
