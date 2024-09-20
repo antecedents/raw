@@ -52,7 +52,8 @@ class Interface:
             },
             tune_config=ray.tune.TuneConfig(
                 metric='eval_loss', mode='min',
-                scheduler=self.__settings.scheduler()
+                scheduler=self.__settings.scheduler(),
+                num_samples=2, reuse_actors=True
             )
 
         )
