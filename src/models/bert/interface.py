@@ -19,6 +19,10 @@ class Interface:
         self.__variable = variable
         self.__enumerator = enumerator
 
+        # Maximum steps per epoch
+        self.__max_steps_per_epoch: int = (
+                self.__variable.N_TRAIN // (self.__variable.TRAIN_BATCH_SIZE * self.__variable.N_GPU))
+
     def exc(self):
 
         arc = src.models.bert.architecture.Architecture()
@@ -34,7 +38,6 @@ class Interface:
             param_space={
                 'scaling_config': ray.train.ScalingConfig(
                     num_workers=self.__variable.N_GPU, use_gpu=True, trainer_resources={'CPU': self.__variable.N_CPU})
-
             }
 
         )
