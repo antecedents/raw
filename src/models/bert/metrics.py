@@ -2,10 +2,9 @@
 import logging
 import typing
 
-import numpy as np
 import evaluate
+import numpy as np
 import transformers.trainer_utils
-
 
 
 class Metrics:
