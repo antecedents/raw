@@ -22,6 +22,7 @@ class Special:
         self.__enumerator = enumerator
         self.__tokenizer = tokenizer
 
+    # noinspection DuplicatedCode
     def exc(self, node: dict):
         """
 
