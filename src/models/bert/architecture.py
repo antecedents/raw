@@ -29,7 +29,7 @@ class Architecture:
         parameters = src.models.bert.parameters.Parameters()
 
         # Tokenizer
-        tokenizer = src.models.bert.tokenizer.Tokenizer().exc()
+        tokenizer: transformers.tokenization_utils_base = src.models.bert.tokenizer.Tokenizer().exc()
 
         # Special
         special = src.models.bert.special.Special(
