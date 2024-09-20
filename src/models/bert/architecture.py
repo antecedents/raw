@@ -1,24 +1,34 @@
-import os
+"""Module architecture.py"""
 import logging
+import os
 
 import ray.train
+import ray.train.huggingface.transformers as rt
 import transformers
 
 import src.elements.variable as vr
+import src.models.bert.intelligence
+import src.models.bert.metrics
 import src.models.bert.parameters
 import src.models.bert.tokenization
 import src.models.bert.tokenizer
-import src.models.bert.metrics
-import src.models.bert.intelligence
 
 
 class Architecture:
+    """
+    Class Architecture
+    """
 
     def __init__(self):
         pass
 
     @staticmethod
     def exc(config: dict):
+        """
+        
+        :param config: 
+        :return: 
+        """
 
         logging.info(config)
 
@@ -33,17 +43,17 @@ class Architecture:
         # Tokenizer
         tokenizer: transformers.tokenization_utils_base = src.models.bert.tokenizer.Tokenizer().exc()
 
-        # Special
-        special = src.models.bert.tokenization.Tokenization(
+        # Tokenization
+        tke = src.models.bert.tokenization.Tokenization(
             variable=config.get('variable'), enumerator=config.get('enumerator'), tokenizer=tokenizer)
 
         training = ray.train.get_dataset_shard('train')
         evaluating = ray.train.get_dataset_shard('eval')
 
         training_ = training.iter_torch_batches(
-            batch_size=variable.TRAIN_BATCH_SIZE, collate_fn=special.exc)
+            batch_size=variable.TRAIN_BATCH_SIZE, collate_fn=tke.exc)
         evaluating_ = evaluating.iter_torch_batches(
-            batch_size=variable.VALID_BATCH_SIZE, collate_fn=special.exc)
+            batch_size=variable.VALID_BATCH_SIZE, collate_fn=tke.exc)
 
         # And
         metrics = src.models.bert.metrics.Metrics(
@@ -73,7 +83,7 @@ class Architecture:
         )
 
         # Trainer
-        transformers.Trainer(
+        trainer = transformers.Trainer(
             model_init=intelligence.model,
             args=args,
             data_collator=intelligence.collator(tokenizer=tokenizer),
@@ -82,4 +92,7 @@ class Architecture:
             tokenizer=tokenizer,
             compute_metrics=metrics.exc
         )
+        trainer.add_callback(rt.RayTrainReportCallback())
+        trainer = rt.prepare_trainer(trainer)
 
+        trainer.train()
