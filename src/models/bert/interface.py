@@ -16,17 +16,19 @@ import src.models.bert.settings
 class Interface:
 
     def __init__(self, data: dict[str, ray.data.dataset.MaterializedDataset],
-                 variable: vr.Variable, enumerator: dict):
+                 variable: vr.Variable, enumerator: dict, archetype: dict):
         """
 
         :param data:
         :param variable:
         :param enumerator:
+        :param archetype:
         """
 
         self.__data = data
         self.__variable = variable
         self.__enumerator = enumerator
+        self.__archetype = archetype
 
         # Parameters, and their arguments.
         self.__parameters = src.models.bert.parameters.Parameters()
@@ -57,6 +59,7 @@ class Interface:
                     'weight_decay': ray.tune.grid_search([0.1, 0.2]),
                     'variable': self.__variable,
                     'enumerator': self.__enumerator,
+                    'archetype': self.__archetype,
                     'seed': config.Config().seed
                 },
                 'scaling_config': ray.train.ScalingConfig(
