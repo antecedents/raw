@@ -7,6 +7,7 @@ import ray.air
 
 import src.elements.variable as vr
 import src.models.bert.interface
+import src.models.bert.valuation
 
 
 class Steps:
@@ -50,3 +51,4 @@ class Steps:
             enumerator=self.__enumerator, archetype=self.__archetype).exc()
 
         best: ray.air.Result = results.get_best_result()
+        src.models.bert.valuation.Valuation().exc(best=best)
