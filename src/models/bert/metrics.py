@@ -6,6 +6,8 @@ import evaluate
 import numpy as np
 import transformers.trainer_utils
 
+import config
+
 
 class Metrics:
     """
@@ -67,11 +69,10 @@ class Metrics:
 
         return labels_, predictions_
 
-    def exc(self, bucket: transformers.trainer_utils.PredictionOutput, via_matrices: bool = False):
+    def exc(self, bucket: transformers.trainer_utils.PredictionOutput):
         """
 
         :param bucket:
-        :param via_matrices
         :return:
         """
 
@@ -79,7 +80,7 @@ class Metrics:
         predictions = np.argmax(predictions, axis=2)
         labels = bucket.label_ids
 
-        if via_matrices:
+        if config.Config().matrix:
             labels_, predictions_  = self.__matrices(predictions=predictions, labels=labels)
         else:
             labels_, predictions_ = self.__lists(predictions=predictions, labels=labels)
