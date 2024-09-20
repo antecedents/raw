@@ -8,7 +8,7 @@ class Tokenizer:
 
         self.__parameters = src.models.bert.parameters.Parameters()
 
-    def exc(self):
+    def exc(self) -> transformers.tokenization_utils_base:
         """
         transformers.BertTokenizerFast.from_pretrained(
             pretrained_model_name_or_path=self.__parameters.pretrained_model_name)
