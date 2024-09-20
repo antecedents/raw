@@ -3,6 +3,7 @@ import logging
 
 import src.models.bert.architecture
 import src.elements.variable as vr
+import src.models.bert.settings
 
 import ray.train.torch
 import ray.train
@@ -22,6 +23,9 @@ class Interface:
         # Maximum steps per epoch
         self.__max_steps_per_epoch: int = (
                 self.__variable.N_TRAIN // (self.__variable.TRAIN_BATCH_SIZE * self.__variable.N_GPU))
+
+        # Additionally
+        self.__settings = src.models.bert.settings.Settings(variable=self.__variable)
 
     def exc(self):
 
@@ -45,6 +49,10 @@ class Interface:
                 },
                 'scaling_config': ray.train.ScalingConfig(
                     num_workers=self.__variable.N_GPU, use_gpu=True, trainer_resources={'CPU': self.__variable.N_CPU})
-            }
+            },
+            tune_config=ray.tune.TuneConfig(
+                metric='eval_loss', mode='min',
+                scheduler=self.__settings.scheduler()
+            )
 
         )
