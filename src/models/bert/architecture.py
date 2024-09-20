@@ -1,12 +1,13 @@
+import os
 import logging
 
 import ray.train
 import transformers
 
-import src.models.bert.tokenizer
-import src.models.bert.special
 import src.elements.variable as vr
 import src.models.bert.parameters
+import src.models.bert.special
+import src.models.bert.tokenizer
 
 
 class Architecture:
@@ -43,7 +44,7 @@ class Architecture:
             batch_size=variable.VALID_BATCH_SIZE, collate_fn=special.exc)
 
         # Arguments
-        transformers.TrainingArguments(
+        args = transformers.TrainingArguments(
             output_dir=parameters.MODEL_OUTPUT_DIRECTORY,
             eval_strategy='epoch', save_strategy='epoch',
             learning_rate=config.get('learning_rate'),
@@ -53,5 +54,14 @@ class Architecture:
             num_train_epochs=variable.EPOCHS,
             max_steps=max_steps_per_epoch * variable.EPOCHS,
             warmup_steps=0,
-            no_cuda=False
+            no_cuda=False,
+            seed=config.get('seed'),
+            save_total_limit=5,
+            skip_memory_metrics=True,
+            load_best_model_at_end=True,
+            logging_dir=os.path.join(parameters.MODEL_OUTPUT_DIRECTORY, 'logs'),
+            fp16=True,
+            push_to_hub=False
         )
+
+        # Trainer
