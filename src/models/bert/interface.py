@@ -5,6 +5,7 @@ import src.models.bert.architecture
 import src.elements.variable as vr
 
 import ray.train.torch
+import ray.train
 import ray.tune
 import ray.tune.schedulers
 
@@ -15,7 +16,8 @@ class Interface:
                  variable: vr.Variable, enumerator: dict):
 
         self.__data = data
-        logging.info(self.__data['train'].count())
+        self.__variable = variable
+        self.__enumerator = enumerator
 
     def exc(self):
 
@@ -30,6 +32,8 @@ class Interface:
         tuner = ray.tune.Tuner(
             trainable,
             param_space={
+                'scaling_config': ray.train.ScalingConfig(
+                    num_workers=self.__variable.N_GPU, use_gpu=True, trainer_resources={'CPU': self.__variable.N_CPU})
 
             }
 
