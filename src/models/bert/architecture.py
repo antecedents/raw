@@ -25,7 +25,7 @@ class Architecture:
         max_steps_per_epoch: int = (
                 variable.N_TRAIN // (variable.TRAIN_BATCH_SIZE * variable.N_GPU))
 
-        # Parameters
+        # The parameters and their arguments.
         parameters = src.models.bert.parameters.Parameters()
 
         # Tokenizer
