@@ -6,7 +6,7 @@ import transformers
 
 import src.elements.variable as vr
 import src.models.bert.parameters
-import src.models.bert.special
+import src.models.bert.tokenization
 import src.models.bert.tokenizer
 
 
@@ -32,7 +32,7 @@ class Architecture:
         tokenizer: transformers.tokenization_utils_base = src.models.bert.tokenizer.Tokenizer().exc()
 
         # Special
-        special = src.models.bert.special.Special(
+        special = src.models.bert.tokenization.Tokenization(
             variable=config.get('variable'), enumerator=config.get('enumerator'), tokenizer=tokenizer)
 
         training = ray.train.get_dataset_shard('train')
@@ -65,3 +65,4 @@ class Architecture:
         )
 
         # Trainer
+        
