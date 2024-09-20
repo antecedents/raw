@@ -20,3 +20,6 @@ class Config:
 
         # Seed: All cases
         self.seed = 5
+
+        # Metrics
+        self.matrix = True
