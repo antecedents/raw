@@ -8,6 +8,8 @@ import src.elements.variable as vr
 import src.models.bert.parameters
 import src.models.bert.tokenization
 import src.models.bert.tokenizer
+import src.models.bert.metrics
+import src.models.bert.intelligence
 
 
 class Architecture:
@@ -43,6 +45,12 @@ class Architecture:
         evaluating_ = evaluating.iter_torch_batches(
             batch_size=variable.VALID_BATCH_SIZE, collate_fn=special.exc)
 
+        # And
+        metrics = src.models.bert.metrics.Metrics(
+            archetype=config.get('archetype'))
+        intelligence = src.models.bert.intelligence.Intelligence(
+            enumerator=config.get('enumerator'), archetype=config.get('archetype'))
+
         # Arguments
         args = transformers.TrainingArguments(
             output_dir=parameters.MODEL_OUTPUT_DIRECTORY,
@@ -65,4 +73,13 @@ class Architecture:
         )
 
         # Trainer
-        
+        transformers.Trainer(
+            model_init=intelligence.model,
+            args=args,
+            data_collator=intelligence.collator(tokenizer=tokenizer),
+            train_dataset=training_,
+            eval_dataset=evaluating_,
+            tokenizer=tokenizer,
+            compute_metrics=metrics.exc
+        )
+
