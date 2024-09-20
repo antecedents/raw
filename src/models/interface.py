@@ -3,9 +3,12 @@ import logging
 
 import pandas as pd
 
+import ray.data
+
 import src.data.splittings
 import src.elements.frames as fr
 import src.models.bert.steps
+import src.data.datatypes
 
 
 class Interface:
@@ -39,10 +42,13 @@ class Interface:
         :return:
         """
 
+        data: dict[str, ray.data.dataset.MaterializedDataset] = src.data.datatypes.Datatypes(
+            splittings=self.__splittings).get_rays()
+
         match architecture:
             case 'bert':
                 src.models.bert.steps.Steps(
-                    splittings=self.__splittings, enumerator=self.__enumerator, archetype=self.__archetype).exc()
+                    data=data, enumerator=self.__enumerator, archetype=self.__archetype).exc()
             case 'distil':
                 self.__logger.info('...')
             case 'electra':
