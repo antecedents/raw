@@ -7,7 +7,7 @@ import torch
 import src.elements.variable as vr
 
 
-class Special:
+class Tokenization:
 
     def __init__(self, variable: vr.Variable, enumerator: dict,
                  tokenizer: transformers.tokenization_utils_base):
