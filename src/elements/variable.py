@@ -38,6 +38,15 @@ class Variable(typing.NamedTuple):
 
     N_TEST : int
         The number of testing instances
+
+    N_CPU: int
+        An initial number of central processing units for computation
+
+    N_GPU: int
+        The number of graphics processing units
+
+    N_TRIALS: int
+        Hyperparameters search trials
     """
 
     MAX_LENGTH: int = 128
@@ -51,3 +60,6 @@ class Variable(typing.NamedTuple):
     N_TRAIN: int = None
     N_VALID: int = None
     N_TEST: int = None
+    N_CPU: int = 8
+    N_GPU: int = 1
+    N_TRIALS: int = 2
