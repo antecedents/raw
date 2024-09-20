@@ -10,8 +10,10 @@ class Tokenizer:
 
     def exc(self) -> transformers.tokenization_utils_base:
         """
-        transformers.BertTokenizerFast.from_pretrained(
-            pretrained_model_name_or_path=self.__parameters.pretrained_model_name)
+        # https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoTokenizer
+        transformers.AutoTokenizer.from_pretrained(
+            pretrained_model_name_or_path=self.__parameters.pretrained_model_name,
+            use_fast=True)
 
         :return:
         """
