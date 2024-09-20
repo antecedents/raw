@@ -5,7 +5,6 @@ import ray.data.dataset
 
 import src.elements.frames as fr
 import src.elements.variable as vr
-import src.models.bert.tokenizer
 import src.data.datatypes
 
 
@@ -29,8 +28,6 @@ class Steps:
         self.__variable = vr.Variable(
             N_TRAIN=self.__splittings.training.shape[0], N_VALID=self.__splittings.validating.shape[0],
             N_TEST=self.__splittings.testing.shape[0])
-
-        self.__tokenizer = src.models.bert.tokenizer.Tokenizer().exc()
 
         # Logging
         logging.basicConfig(level=logging.INFO,
