@@ -27,6 +27,13 @@ class Preprocessing:
 
     def __tokenization(self, blob):
         """
+        Example:
+         blob = {'sentence_identifier': np.array([..., ...]),
+                 'sentence': np.array([..., ...]),
+                 'tagstr': np.array([
+                    'O,O,O,B-per,I-per,O,O,B-geo,I-geo,O,B-tim,O,O,O,O,O,B-per,O',
+                    'O,B-geo,O,O,O,B-geo,O,O,O,O,O,O,B-gpe,O,O,O,O,O,O,O,O,O,O'])
+                }
 
         :return:
         """
