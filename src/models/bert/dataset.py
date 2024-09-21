@@ -15,7 +15,7 @@ class Dataset(torch.utils.data.Dataset):
 
     T = typing.TypeVar('T', str, str)
 
-    def __init__(self, matrix: np.ndarray[T], variable: vr.Variable,
+    def __init__(self, matrix: np.ndarray, variable: vr.Variable,
                  enumerator: dict, tokenizer: transformers.tokenization_utils_base) -> None:
         """
 
@@ -64,8 +64,6 @@ class Dataset(torch.utils.data.Dataset):
 
         encoding['labels'] = ela
         item = {key: torch.as_tensor(value) for key, value in encoding.items()}
-
-        print(item)
 
         return item
 
