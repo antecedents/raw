@@ -29,7 +29,7 @@ class Steps:
 
         self.__variable = vr.Variable(
             N_TRAIN=self.__data['train'].count(), N_VALID=self.__data['validate'].count(),
-            N_TEST=self.__data['test'].count())
+            N_TEST=self.__data['test'].count(), EPOCHS=2)
 
         # Logging
         logging.basicConfig(level=logging.INFO,
@@ -45,6 +45,11 @@ class Steps:
 
         self.__logger.info(self.__data)
         self.__logger.info(self.__data['train'].take(1))
+
+        example = self.__data['train'].take(1)
+        self.__logger.info(example[0])
+        self.__logger.info(example[0]['sentence'])
+        self.__logger.info(type(example))
 
         results: ray.tune.ResultGrid = src.models.bert.interface.Interface(
             data=self.__data, variable=self.__variable,
