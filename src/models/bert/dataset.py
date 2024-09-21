@@ -1,5 +1,3 @@
-import typing
-
 import numpy as np
 import torch.utils.data
 import transformers
@@ -13,13 +11,10 @@ class Dataset(torch.utils.data.Dataset):
     Class Dataset
     """
 
-    T = typing.TypeVar('T', str, str)
-
-    def __init__(self, matrix: np.ndarray, variable: vr.Variable,
+    def __init__(self, variable: vr.Variable,
                  enumerator: dict, tokenizer: transformers.tokenization_utils_base) -> None:
         """
 
-        :param matrix:
         :param variable:
         :param enumerator:
         :param tokenizer:
@@ -27,22 +22,20 @@ class Dataset(torch.utils.data.Dataset):
 
         super().__init__()
 
-        self.__matrix = matrix
-        self.__length = matrix.shape[0]
-
         self.__variable = variable
         self.__enumerator = enumerator
         self.__tokenizer = tokenizer
 
-    def __getitem__(self, index) -> dict:
+    def exc(self, sentence: str, tagstr: str) -> dict:
         """
 
-        :param index: A row index
+        :param sentence:
+        :param tagstr:
         :return:
         """
 
         # A sentence's words, and the tokenization of words
-        words: list[str] = self.__matrix[index, 0].strip().split()
+        words: list[str] = sentence.strip().split()
         encoding: dict = self.__tokenizer(words, padding='max_length', truncation=True,
                                           is_split_into_words=True,
                                           max_length=self.__variable.MAX_LENGTH,
@@ -52,7 +45,7 @@ class Dataset(torch.utils.data.Dataset):
         ela: np.ndarray = np.ones(shape=self.__variable.MAX_LENGTH, dtype=int) * -100
 
         # The corresponding tags of a sentence's words, and the code of each tag
-        tags: list[str] = self.__matrix[index, 1].split(',')
+        tags: list[str] = tagstr.split(',')
         labels = [self.__enumerator[tag] for tag in tags]
 
         # Herein, per word index cf. offset pairings.  There are <max_length> tokens.
@@ -66,11 +59,3 @@ class Dataset(torch.utils.data.Dataset):
         item = {key: torch.as_tensor(value) for key, value in encoding.items()}
 
         return item
-
-    def __len__(self):
-        """
-
-        :return:
-        """
-
-        return self.__length
