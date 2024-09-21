@@ -143,6 +143,7 @@ The formulae in focus are
 
 * UserWarning: Using the model-agnostic default `max_length` (=20) to control the generation length. We recommend setting `max_new_tokens` to control the maximum length of the generation.
 
+* metric & mode: Set via a member of **ray.tune.schedulers** or **ray.tune.TuneConfig**, not both.
 
 <br>
 <br>
