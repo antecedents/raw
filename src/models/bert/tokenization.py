@@ -1,10 +1,11 @@
-
+import typing
 import numpy as np
 
 import transformers
 import torch
 
 import src.elements.variable as vr
+import src.models.bert.dataset
 
 
 class Tokenization:
@@ -52,33 +53,8 @@ class Tokenization:
                 'B-geo,O,O,B-per,I-per,I-per,O,O,O,O,O,B-geo,O,O,O,O,O,O,O,O,O,O,O,O,O'])}
         '''
 
-        # A sentence's words, and the tokenization of words
-        words: list[str] = node['sentence'].strip().split()
-        encoding: dict = self.__tokenizer(words, padding='max_length', truncation=True,
-                                          is_split_into_words=True,
-                                          max_length=self.__variable.MAX_LENGTH,
-                                          return_offsets_mapping=True)
+        T = typing.TypeVar('T', str, bytes)
+        matrix: np.ndarray[T] = np.stack((node['sentence'], node['tagstr']), axis=-1, dtype=...)
 
-        # placeholder array of labels for the encoding dict
-        ela: np.ndarray = np.ones(shape=self.__variable.MAX_LENGTH, dtype=int) * -100
-
-        # The corresponding tags of a sentence's words, and the code of each tag
-        tags: list[str] = node['tagstr'].split(',')
-        labels = [self.__enumerator[tag] for tag in tags]
-
-        # Herein, per iteration, cf. offset pairings.  There
-        # are <max_length> iterations/offset pairings.
-        # (maximum number of tokens, 2)
-        limit = len(labels)
-        for iteration, mapping in enumerate(encoding['offset_mapping']):
-            if mapping[0] == 0 and mapping[1] != 0 and iteration < limit:
-                ela[iteration] = labels[iteration]
-
-        # Hence, set.
-        encoding['labels'] = ela
-
-        # Beware of the steps herein: (a) as tensors, and (b) to graphics processing unit, i.e.,
-        # CUDA (computer unified device architecture)
-        item = {key: torch.as_tensor(value).cuda() for key, value in encoding.items()}
-
-        return item
+        return src.models.bert.dataset.Dataset(
+            matrix=matrix, variable=self.__variable, enumerator=self.__enumerator, tokenizer=self.__tokenizer)
