@@ -13,7 +13,7 @@ class Dataset(torch.utils.data.Dataset):
     Class Dataset
     """
 
-    T = typing.TypeVar('T', str, bytes)
+    T = typing.TypeVar('T', str, str)
 
     def __init__(self, matrix: np.ndarray[T], variable: vr.Variable,
                  enumerator: dict, tokenizer: transformers.tokenization_utils_base) -> None:
