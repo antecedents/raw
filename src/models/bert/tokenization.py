@@ -53,8 +53,8 @@ class Tokenization:
                 'B-geo,O,O,B-per,I-per,I-per,O,O,O,O,O,B-geo,O,O,O,O,O,O,O,O,O,O,O,O,O'])}
         '''
 
-        T = typing.TypeVar('T', str, bytes)
-        matrix: np.ndarray[T] = np.stack((node['sentence'], node['tagstr']), axis=-1, dtype=...)
+
+        matrix = np.stack((node['sentence'], node['tagstr']), axis=-1)
 
         return src.models.bert.dataset.Dataset(
             matrix=matrix, variable=self.__variable, enumerator=self.__enumerator, tokenizer=self.__tokenizer)
