@@ -19,23 +19,28 @@ class Architecture:
     Class Architecture
     """
 
-    def __init__(self):
-        pass
+    def __init__(self, variable: vr.Variable, enumerator: dict, archetype: dict):
+        """
 
-    @staticmethod
-    def exc(config: dict):
+        :param variable:
+        :param enumerator:
+        :param archetype:
+        """
+
+        self.__variable = variable
+        self.__enumerator = enumerator
+        self.__archetype = archetype
+
+    def exc(self, config: dict):
         """
         
         :param config: 
         :return: 
         """
 
-        logging.info(config)
-
-        # Via config
-        variable: vr.Variable = config.get('variable')
+        # Maximum steps per epoch
         max_steps_per_epoch: int = (
-                variable.N_TRAIN // (variable.TRAIN_BATCH_SIZE * variable.N_GPU))
+                self.__variable.N_TRAIN // (self.__variable.TRAIN_BATCH_SIZE * self.__variable.N_GPU))
 
         # The parameters and their arguments.
         parameters = src.models.bert.parameters.Parameters()
@@ -45,21 +50,20 @@ class Architecture:
 
         # Tokenization
         tke = src.models.bert.tokenization.Tokenization(
-            variable=config.get('variable'), enumerator=config.get('enumerator'), tokenizer=tokenizer)
+            variable=self.__variable, enumerator=self.__enumerator, tokenizer=tokenizer)
 
         training = ray.train.get_dataset_shard('train')
         evaluating = ray.train.get_dataset_shard('eval')
 
         training_ = training.iter_torch_batches(
-            batch_size=variable.TRAIN_BATCH_SIZE, collate_fn=tke.exc)
+            batch_size=self.__variable.TRAIN_BATCH_SIZE, collate_fn=tke.exc)
         evaluating_ = evaluating.iter_torch_batches(
-            batch_size=variable.VALID_BATCH_SIZE, collate_fn=tke.exc)
+            batch_size=self.__variable.VALID_BATCH_SIZE, collate_fn=tke.exc)
 
         # And
-        metrics = src.models.bert.metrics.Metrics(
-            archetype=config.get('archetype'))
+        metrics = src.models.bert.metrics.Metrics(archetype=self.__archetype)
         intelligence = src.models.bert.intelligence.Intelligence(
-            enumerator=config.get('enumerator'), archetype=config.get('archetype'))
+            enumerator=self.__enumerator, archetype=self.__archetype)
 
         # Arguments
         args = transformers.TrainingArguments(
@@ -67,10 +71,10 @@ class Architecture:
             eval_strategy='epoch', save_strategy='epoch',
             learning_rate=config.get('learning_rate'),
             weight_decay=config.get('weight_decay'),
-            per_device_train_batch_size=variable.TRAIN_BATCH_SIZE,
-            per_device_eval_batch_size=variable.VALID_BATCH_SIZE,
-            num_train_epochs=variable.EPOCHS,
-            max_steps=max_steps_per_epoch * variable.EPOCHS,
+            per_device_train_batch_size=self.__variable.TRAIN_BATCH_SIZE,
+            per_device_eval_batch_size=self.__variable.VALID_BATCH_SIZE,
+            num_train_epochs=self.__variable.EPOCHS,
+            max_steps=max_steps_per_epoch * self.__variable.EPOCHS,
             warmup_steps=0,
             no_cuda=False,
             seed=config.get('seed'),
