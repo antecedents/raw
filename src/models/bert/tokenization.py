@@ -1,11 +1,9 @@
-import typing
-import numpy as np
+import logging
 
+import numpy as np
 import transformers
-import torch
 
 import src.elements.variable as vr
-import src.models.bert.dataset
 
 
 class Tokenization:
@@ -24,7 +22,8 @@ class Tokenization:
         self.__tokenizer = tokenizer
 
     # noinspection DuplicatedCode
-    def exc(self, node: dict):
+    @staticmethod
+    def exc(node: dict):
         """
         Under development
 
@@ -56,5 +55,4 @@ class Tokenization:
 
         matrix = np.stack((node['sentence'], node['tagstr']), axis=-1)
 
-        return src.models.bert.dataset.Dataset(
-            matrix=matrix, variable=self.__variable, enumerator=self.__enumerator, tokenizer=self.__tokenizer)
+        logging.info(matrix)
