@@ -1,8 +1,9 @@
 import transformers
 
-import src.models.bert.parameters
 import src.elements.variable as vr
 import src.models.bert.parameters
+import src.models.bert.parameters
+
 
 class Preprocessing:
 
