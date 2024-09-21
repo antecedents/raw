@@ -1,5 +1,9 @@
 """Module preprocessing.py"""
 import transformers
+import ray.data
+
+import numpy as np
+import torch
 
 import src.elements.variable as vr
 import src.models.bert.parameters
@@ -10,7 +14,7 @@ class Preprocessing:
 
     def __init__(self, tokenizer: transformers.PreTrainedTokenizerFast, variable: vr.Variable):
         """
-        
+
         :param tokenizer:
         :param variable:
         """
@@ -20,3 +24,21 @@ class Preprocessing:
 
         # Additionally
         self.__parameters = src.models.bert.parameters.Parameters()
+
+    def __tokenization(self, blob):
+        """
+
+        :return:
+        """
+
+
+    def iterables(self, part: ray.data.DataIterator, batch_size: int):
+        """
+
+        :param part:
+        :param batch_size:
+        :return:
+        """
+
+        return part.iter_torch_batches(
+            batch_size=batch_size, collate_fn=self.__tokenization)
