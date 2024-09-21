@@ -55,6 +55,7 @@ class Architecture:
         training = ray.train.get_dataset_shard('train')
         evaluating = ray.train.get_dataset_shard('eval')
 
+        # ... temporary
         training_ = training.iter_torch_batches(
             batch_size=self.__variable.TRAIN_BATCH_SIZE, collate_fn=tke.exc)
         evaluating_ = evaluating.iter_torch_batches(
