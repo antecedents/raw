@@ -25,10 +25,32 @@ class Tokenization:
     # noinspection DuplicatedCode
     def exc(self, node: dict):
         """
+        Under development
 
         :param node:
         :return:
         """
+
+        '''
+        Example
+        -------
+        
+        https://docs.ray.io/en/latest/data/api/doc/ray.data.Dataset.iter_torch_batches.html
+        
+        node = {
+            'sentence_identifier': np.array(['Sentence: 29552', 'Sentence: 28377', 'Sentence: 41530', 'Sentence: 15254']),
+            'sentence': np.array([
+                'Reigning overall champion Bode Miller of the United States finished 11th , nearly 2.5 seconds behind Rahlves .',
+                'A U.S. military spokeswoman in Kabul says it is up to the Afghan government how it wants to deal with the broadcasts .',
+                'She said he was being investigated for possible links to the al-Qaida terrorist network .',
+                "Togo 's new President Faure Gnassingbe has visited his counterpart in Gabon , amid intense international pressure on the Togolese leader to step down ."
+            ]),
+            'tagstr': np.array([
+                'O,O,O,B-per,I-per,O,O,B-geo,I-geo,O,B-tim,O,O,O,O,O,B-per,O',
+                'O,B-geo,O,O,O,B-geo,O,O,O,O,O,O,B-gpe,O,O,O,O,O,O,O,O,O,O',
+                'O,O,O,O,O,O,O,O,O,O,O,B-org,O,O,O',
+                'B-geo,O,O,B-per,I-per,I-per,O,O,O,O,O,B-geo,O,O,O,O,O,O,O,O,O,O,O,O,O'])}
+        '''
 
         # A sentence's words, and the tokenization of words
         words: list[str] = node['sentence'].strip().split()
