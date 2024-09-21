@@ -1,3 +1,4 @@
+"""Module preprocessing.py"""
 import transformers
 
 import src.elements.variable as vr
@@ -8,6 +9,11 @@ import src.models.bert.parameters
 class Preprocessing:
 
     def __init__(self, tokenizer: transformers.PreTrainedTokenizerFast, variable: vr.Variable):
+        """
+        
+        :param tokenizer:
+        :param variable:
+        """
 
         self.__tokenizer = tokenizer
         self.__variable = variable
