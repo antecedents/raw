@@ -4,7 +4,8 @@ import logging
 import ray.train
 import ray.train.torch
 import ray.tune
-import ray.tune.schedulers
+import ray.tune.schedulers as rts
+import ray.tune.search.bayesopt as rtb
 
 import config
 import src.elements.variable as vr
@@ -42,7 +43,8 @@ class Interface:
         :return:
         """
 
-        arc = src.models.bert.architecture.Architecture()
+        arc = src.models.bert.architecture.Architecture(
+            variable=self.__variable, enumerator=self.__enumerator, archetype=self.__archetype)
 
         # From Hugging Face Trainer -> Ray Trainer
         trainable = ray.train.torch.TorchTrainer(
@@ -55,19 +57,16 @@ class Interface:
             trainable,
             param_space={
                 'train_loop_config': {
-                    'learning_rate': ray.tune.grid_search([0.01, 0.02]),
-                    'weight_decay': ray.tune.grid_search([0.1, 0.2]),
-                    'variable': self.__variable,
-                    'enumerator': self.__enumerator,
-                    'archetype': self.__archetype,
+                    'learning_rate': ray.tune.qloguniform(lower=0.005, upper=0.1, q=0.0005),
+                    'weight_decay': ray.tune.uniform(lower=0.02, upper=0.1),
                     'seed': config.Config().seed
                 },
                 'scaling_config': ray.train.ScalingConfig(
                     num_workers=self.__variable.N_GPU, use_gpu=True, trainer_resources={'CPU': self.__variable.N_CPU})
             },
             tune_config=ray.tune.TuneConfig(
-                metric='eval_loss', mode='min',
-                scheduler=self.__settings.scheduler(),
+                scheduler=rts.ASHAScheduler(metric='eval_loss', mode='min'),
+                # search_alg=rtb.BayesOptSearch(metric='eval_loss', mode='min'),
                 num_samples=2, reuse_actors=True
             ),
             run_config=ray.train.RunConfig(
@@ -80,7 +79,6 @@ class Interface:
                     checkpoint_score_order='min'
                 )
             )
-
         )
 
         return tuner.fit()
