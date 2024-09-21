@@ -38,6 +38,9 @@ class Preprocessing:
         :return:
         """
 
+        sentences: np.ndarray[str] = blob['sentence']
+        strings: np.ndarray[str] = blob['tagstr']
+
 
     def iterables(self, part: ray.data.DataIterator, batch_size: int):
         """
