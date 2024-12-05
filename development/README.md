@@ -12,7 +12,7 @@ For this Python project/template, the remote development environment requires
 An image is built via the command
 
 ```shell
-docker build . --file .devcontainer/Dockerfile -t text
+docker build . --file .devcontainer/Dockerfile -t uncertainty
 ```
 
 On success, the output of
@@ -25,35 +25,27 @@ should include
 
 <br>
 
-| repository | tag    | image id | created  | size     |
-|:-----------|:-------|:---------|:---------|:---------|
-| text       | latest | $\ldots$ | $\ldots$ | $\ldots$ |
+| repository  | tag    | image id | created  | size     |
+|:------------|:-------|:---------|:---------|:---------|
+| uncertainty | latest | $\ldots$ | $\ldots$ | $\ldots$ |
 
 
 <br>
 
-Subsequently, run a container, i.e., an instance, of the image `text` via:
+Subsequently, run a container, i.e., an instance, of the image `uncertainty` via:
 
 <br>
 
-```shell
-docker run --rm --gpus all --shm-size=16gb -i -t 
-  -p 127.0.0.1:6007:6007 -p 127.0.0.1:6006:6006 
-    -p 172.17.0.2:8265:8265 -p 172.17.0.2:6379:6379 -w /app 
-	    --mount type=bind,src="$(pwd)",target=/app text
-```
-
-or
 
 ```shell
-docker run --rm --gpus all --shm-size=16gb -i -t 
-  -p 6007:6007 -p 6006:6006 -p 8265:8265 -p 6379:6379  
-    -w /app --mount type=bind,src="$(pwd)",target=/app text
+docker run --rm -i -t -p 8000:8000  
+    -w /app --mount type=bind,src="$(pwd)",target=/app 
+      -v ~/.aws:/root/.aws uncertainty
 ```
 
 <br>
 
-Herein, `-p 6007:6007` maps the host port `6007` to container port `6007`.  Note, the container's working environment, i.e., -w, must be inline with this project's top directory.  Additionally
+Herein, `-p 8000:8000` maps the host port `8000` to container port `8000`.  Note, the container's working environment, i.e., -w, must be inline with this project's top directory.  Additionally
 
 * --rm: [automatically remove container](https://docs.docker.com/engine/reference/commandline/run/#:~:text=a%20container%20exits-,%2D%2Drm,-Automatically%20remove%20the)
 * -i: [interact](https://docs.docker.com/engine/reference/commandline/run/#:~:text=and%20reaps%20processes-,%2D%2Dinteractive,-%2C%20%2Di)
@@ -62,7 +54,7 @@ Herein, `-p 6007:6007` maps the host port `6007` to container port `6007`.  Note
 
 <br>
 
-Get the name of the running instance of ``text`` via:
+The part `-v ~/.aws:/root/.aws` ascertains Amazon Web Services interactions via containers. Get the name of the running instance of ``uncertainty`` via:
 
 ```shell
 docker ps --all
@@ -89,64 +81,6 @@ IDEA** set up involves connecting to a machine's Docker [daemon](https://www.jet
 <br>
 <br>
 
-## Model Development
-
-> [!NOTE]
-> [Tuners](https://docs.ray.io/en/latest/train/user-guides/hyperparameter-optimization.html) can also be used to launch hyperparameter tuning without using Ray Train, e.g., [ray.train.torch.TorchTrainer](https://docs.ray.io/en/latest/train/api/doc/ray.train.torch.TorchTrainer.html); [instead](https://huggingface.co/docs/transformers/main_classes/trainer).
-
-<br>
-
-### Optimisation, etc.
-
-The progress of a model training exercise is observable via TensorBoard
-
-```shell
-tensorboard --logdir /tmp/ray/session_{datetime}_{host.code}/artifacts/{datetime}/tuning/driver_artifacts --bind_all
-```
-
-Subsequently, a link of the form `http://...:6007/` or `http://...:6006/` is printed.  Access the underlying pages via a browser.  It might be necessary to switch to `http://localhost:6007/` or `http://localhost:6006/`
-
-<br>
-
-### Computation Metrics
-
-Via [Ray Dashboard](https://docs.ray.io/en/latest/ray-observability/getting-started.html), aided by Prometheus & Grafana[^tracking]; the set-up for the latter pair is upcoming.  Ensure [usage statistics sharing/collection is disabled](https://docs.ray.io/en/latest/cluster/usage-stats.html).  Options
-
-* os.environ['RAY_USAGE_STATS_ENABLED']='0'
-* Either
-  * ray start --disable-usage-stats --head --dashboard-host=0.0.0.0 --dashboard-port=8265
-  * ray start --disable-usage-stats --head --dashboard-host=172.17.0.2 --dashboard-port=8265
-  * etc.
-
-The computation metrics will be accessible via
-* localhost:8265
-* localhost:6379
-
-<br>
-
-### Steps & Epochs
-
-The formulae in focus are
-
-> * max_steps_per_epoch = self.__source['train'].shape[0] // (variable.TRAIN_BATCH_SIZE * variable.N_GPU)
-> * max_steps = max_steps_per_epoch * self.__n_epochs
-
-<br>
-
-### Warnings
-
-* Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function getCvarString)
-
-* Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
-
-* There were missing keys in the checkpoint model loaded: ['encoder.embed_tokens.weight', 'decoder.embed_tokens.weight', 'lm_head.weight'].
-
-* UserWarning: Using the model-agnostic default `max_length` (=20) to control the generation length. We recommend setting `max_new_tokens` to control the maximum length of the generation.
-
-* metric & mode: Set via a member of **ray.tune.schedulers** or **ray.tune.TuneConfig**, not both.
-
-<br>
-<br>
 
 
 ## Code Analysis
