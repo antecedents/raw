@@ -1,3 +1,4 @@
+"""Module data.py"""
 import logging
 import datetime
 import os
@@ -72,16 +73,16 @@ class Data:
     def __persist(self, blob: pd.DataFrame, path: str):
         """
 
-        :param blob:
-        :param path:
+        :param blob: The data being saved.
+        :param path: The storage string of a data set.
         :return:
         """
 
         return self.__streams.write(blob=blob, path=path)
 
-    def exc(self):
+    def exc(self) -> None:
         """
-        
+
         :return:
         """
 
@@ -93,9 +94,11 @@ class Data:
         # The critical data fields
         frame = self.__get_key_fields()
 
-        # Persist
+        # Persist: Raw
         stamp = datetime.datetime.now().strftime('%Y-%m-%d')
-        self.__persist(blob=self.__data, path=os.path.join(self.__configurations.parent_, 'raw', 'data', f'{stamp}.csv'))
-        self.__persist(blob=frame, path=os.path.join(self.__configurations.parent_, 'latest', 'data', 'data.csv'))
+        message = self.__persist(blob=self.__data, path=os.path.join(self.__configurations.parent_, 'raw', 'data', f'{stamp}.csv'))
+        logging.info(message)
 
-        return
+        # Persist: Critical Fields
+        message = self.__persist(blob=frame, path=os.path.join(self.__configurations.parent_, 'latest', 'data', 'data.csv'))
+        logging.info(message)
