@@ -4,6 +4,8 @@ import logging
 import os
 import sys
 
+import boto3
+
 
 def main():
     """
@@ -13,6 +15,15 @@ def main():
 
     logger: logging.Logger = logging.getLogger(__name__)
     logger.info('Starting: %s', datetime.datetime.now().isoformat(timespec='microseconds'))
+
+    # Set up
+    setup: bool = src.setup.Setup(service=service, s3_parameters=s3_parameters).exc()
+    if not setup:
+        src.functions.cache.Cache().exc()
+        sys.exit('No Executions')
+
+    # Hence
+    src.source.interface.Interface(connector=connector).exc()
 
     # Cache
     src.functions.cache.Cache().exc()
@@ -30,6 +41,15 @@ if __name__ == '__main__':
                         datefmt='%Y-%m-%d %H:%M:%S')
 
     # Classes
+    import src.functions.service
     import src.functions.cache
+    import src.s3.s3_parameters
+    import src.setup
+    import src.source.interface
+
+    # S3 S3Parameters, Service Instance
+    connector = boto3.session.Session()
+    s3_parameters = src.s3.s3_parameters.S3Parameters(connector=connector).exc()
+    service = src.functions.service.Service(connector=connector, region_name=s3_parameters.region_name).exc()
 
     main()
