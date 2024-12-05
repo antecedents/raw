@@ -11,8 +11,22 @@ import src.source.api
 
 
 class Data:
+    """
+    Notes<br>
+    ------<br>
+
+    This class
+        <ul>
+            <li>Retrieves and saves the current version of the raw data.</li>
+            <li> Extracts and structures the relevant fields; then saves.</li>
+        </ul>
+    """
 
     def __init__(self, url: str) -> None:
+        """
+
+        :param url: The uniform resource locator of the data
+        """
         
         self.__url = url
 
@@ -31,12 +45,22 @@ class Data:
             'NumberOver12HoursEpisode': 'n_over_12_hours'}
 
     def __inspect(self, field: str):
+        """
+        This function checks whether a specified field has a single distinct value only.
+
+        :param field: A field of interest
+        :return:
+        """
 
         tensor: np.ndarray = self.__data[field].unique()
 
         assert tensor.shape[0] == 1, f'The number of distinct {field} values is > 1'
 
     def __get_key_fields(self):
+        """
+
+        :return:
+        """
 
         frame = self.__data.copy()[self.__rename.keys()]
         frame.rename(columns=self.__rename, inplace=True)
@@ -46,10 +70,20 @@ class Data:
         return frame
 
     def __persist(self, blob: pd.DataFrame, path: str):
+        """
+
+        :param blob:
+        :param path:
+        :return:
+        """
 
         return self.__streams.write(blob=blob, path=path)
 
     def exc(self):
+        """
+        
+        :return:
+        """
 
 
         # Assert
