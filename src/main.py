@@ -9,6 +9,7 @@ import boto3
 
 def main():
     """
+    Entry point.
 
     :return:
     """
@@ -24,7 +25,8 @@ def main():
 
     # Hence
     src.source.interface.Interface(connector=connector).exc()
-    src.transfer.interface.Interface(connector=connector, service=service, s3_parameters=s3_parameters).exc()
+    src.transfer.interface.Interface(
+        connector=connector, service=service, s3_parameters=s3_parameters).exc()
 
     # Cache
     src.functions.cache.Cache().exc()
@@ -42,8 +44,8 @@ if __name__ == '__main__':
                         datefmt='%Y-%m-%d %H:%M:%S')
 
     # Classes
-    import src.functions.service
     import src.functions.cache
+    import src.functions.service
     import src.s3.s3_parameters
     import src.setup
     import src.source.interface
