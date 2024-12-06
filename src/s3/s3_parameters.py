@@ -13,16 +13,15 @@ import src.s3.unload
 
 class S3Parameters:
     """
-    Class S3Parameters
-
-    Description
-    -----------
+    Notes<br>
+    --------<br>
 
     This class reads-in the YAML file of this project repository's overarching Amazon S3 (Simple Storage Service)
-    parameters.
+    parameters.<br><br>
 
-    S3 Express One Zone, which has 4 overarching regions
-    https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
+    <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html" target="_blank">
+    S3 Express One Zone, which has 4 overarching regions.</a>
+
     """
 
     def __init__(self, connector: boto3.session.Session):
