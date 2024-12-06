@@ -65,7 +65,7 @@ class S3Parameters:
             The re-structured form of the parameters.
         """
 
-        dictionary = src.s3.configurations.Configurations(connector=self.__connector).__call__(
+        dictionary = src.s3.configurations.Configurations(connector=self.__connector).serial(
             key_name=self.__configurations.s3_parameters_key)
 
         return self.__build_collection(dictionary=dictionary)
