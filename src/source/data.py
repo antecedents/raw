@@ -96,9 +96,9 @@ class Data:
 
         # Persist: Raw
         stamp = datetime.datetime.now().strftime('%Y-%m-%d')
-        message = self.__persist(blob=self.__data, path=os.path.join(self.__configurations.parent_, 'raw', 'data', f'{stamp}.csv'))
+        message = self.__persist(blob=self.__data, path=os.path.join(self.__configurations.warehouse, 'raw', 'data', f'{stamp}.csv'))
         logging.info(message)
 
         # Persist: Critical Fields
-        message = self.__persist(blob=frame, path=os.path.join(self.__configurations.parent_, 'latest', 'data', 'data.csv'))
+        message = self.__persist(blob=frame, path=os.path.join(self.__configurations.warehouse, 'latest', 'data', 'data.csv'))
         logging.info(message)
