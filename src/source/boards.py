@@ -53,7 +53,7 @@ class Boards:
 
         tensor: np.ndarray = self.__data[field].unique()
 
-        assert tensor.shape[0] == expectation, f'The number of distinct {field} values is not equal to {expectation}'
+        assert tensor.shape[0] == expectation, f'The number of distinct {field} values is not equal to {expectation}.'
 
     def __get_key_fields(self):
         """
