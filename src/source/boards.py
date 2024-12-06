@@ -11,6 +11,16 @@ import src.source.api
 
 
 class Boards:
+    """
+    Notes<br>
+    ------<br>
+
+    This class
+        <ul>
+            <li>Retrieves and saves the latest raw boards data.</li>
+            <li>Extracts and structures the relevant fields for modelling & analysis; subsequently saves.</li>
+        </ul>
+    """
 
     def __init__(self, url: str) -> None:
         """
@@ -73,7 +83,6 @@ class Boards:
 
         :return:
         """
-
 
         # Assert
         self.__inspect(field='HB', expectation=self.__data.shape[0])
