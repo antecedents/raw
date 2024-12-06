@@ -25,12 +25,8 @@ class API:
         :return:
         """
 
-        try:
-            blob = urllib.request.urlopen(url=url)
-        except FileExistsError as err:
-            raise err from err
-
-        objects = blob.read()
+        with urllib.request.urlopen(url=url) as blob:
+            objects = blob.read()
         dictionary = json.loads(s=objects)
 
         return dictionary
