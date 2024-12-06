@@ -1,4 +1,4 @@
-"""Module data.py"""
+"""Module boards.py"""
 import logging
 import os
 
