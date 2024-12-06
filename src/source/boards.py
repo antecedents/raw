@@ -35,8 +35,6 @@ class Boards:
 
         # Data
         self.__data = src.source.api.API().__call__(url=self.__url)
-        self.__data.info()
-        logging.info(self.__data)
 
         self.__rename = {'HB': 'health_board_code', 'HBName': 'health_board_name',
                          'HBDateEnacted': 'health_board_date_enacted'}
