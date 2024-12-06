@@ -1,9 +1,10 @@
 """
 Module objects.py
 """
-import logging
 import json
 import pathlib
+import sys
+
 import requests
 
 
@@ -54,17 +55,16 @@ class Objects:
             response = requests.get(url=url, timeout=600)
             response.raise_for_status()
         except requests.exceptions.Timeout as err:
-            logging.log(level=logging.INFO, msg=f"TIME OUT: {url.split('timeseries')[1]}")
             raise err from err
         except requests.exceptions.HTTPError as err:
-            raise f'HTTP Error: {err}' from err
+            raise err from err
         except Exception as err:
             raise err from err
 
         if response.status_code == 200:
             return response.json()
 
-        raise f'Failure code: {response.status_code}'
+        sys.exit(response.status_code)
 
     @staticmethod
     def read(uri: str) -> dict:
