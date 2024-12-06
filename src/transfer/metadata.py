@@ -1,5 +1,5 @@
 """Module metadata.py"""
-import logging
+
 import boto3
 
 import config
@@ -32,6 +32,5 @@ class Metadata:
 
         dictionary = src.s3.configurations.Configurations(connector=self.__connector).objects(
             key_name=config.Config().metadata)
-        logging.info(dictionary)
 
         return dictionary
