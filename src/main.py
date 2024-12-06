@@ -24,6 +24,7 @@ def main():
 
     # Hence
     src.source.interface.Interface(connector=connector).exc()
+    src.transfer.interface.Interface(service=service, s3_parameters=s3_parameters).exc()
 
     # Cache
     src.functions.cache.Cache().exc()
@@ -46,6 +47,7 @@ if __name__ == '__main__':
     import src.s3.s3_parameters
     import src.setup
     import src.source.interface
+    import src.transfer.interface
 
     # S3 S3Parameters, Service Instance
     connector = boto3.session.Session()
