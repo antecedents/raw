@@ -62,7 +62,8 @@ class Configurations:
 
         :param key_name: <prefix> + <file name, including extension>
         :return:
-            A dictionary of <a href="https://www.json.org/json-en.html" target="_blank">JSON (JavaScript Object Notation)</a> file contents
+            A dictionary of <a href="https://www.json.org/json-en.html" target="_blank">
+            JSON (JavaScript Object Notation)</a> file contents
         """
 
         try:
