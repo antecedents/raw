@@ -92,10 +92,10 @@ class Institutions:
         frame = self.__get_key_fields()
 
         # Persist: Raw
-        message = self.__persist(blob=self.__data, path=os.path.join(self.__configurations.parent_, 'raw', 'references', 'institutions.csv'))
+        message = self.__persist(blob=self.__data, path=os.path.join(self.__configurations.warehouse, 'raw', 'references', 'institutions.csv'))
         logging.info(message)
 
         # Persist: Critical Fields
-        message = self.__persist(blob=frame, path=os.path.join(self.__configurations.parent_, 'latest', 'references', 'institutions.csv'))
+        message = self.__persist(blob=frame, path=os.path.join(self.__configurations.warehouse, 'latest', 'references', 'institutions.csv'))
         logging.info(message)
 
