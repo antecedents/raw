@@ -42,13 +42,13 @@ class Institutions:
         self.__rename = {'HospitalCode': 'hospital_code', 'HospitalName': 'hospital_name',
                          'AddressLine1': 'address_line_1', 'AddressLine2': 'address_line_2',
                          'AddressLine3': 'address_line_3', 'AddressLine4': 'address_line_4',
-                         'PostCode': 'post_code', 'HealthBoard': 'health_board_code', 'HSCP': 'hscp_code',
+                         'Postcode': 'post_code', 'HealthBoard': 'health_board_code', 'HSCP': 'hscp_code',
                          'CouncilArea': 'council_area', 'IntermediateZone': 'intermediate_zone',
                          'DataZone': 'data_zone'}
 
     def __inspect(self, field: str):
         """
-        This function checks whether a specified field has a single distinct value only.
+        This function checks whether a specified field has distinct values.
 
         :param field: A field of interest
         :return:
@@ -56,7 +56,7 @@ class Institutions:
 
         tensor: np.ndarray = self.__data[field].unique()
 
-        assert tensor.shape[0] == 1, f'The number of distinct {field} values is > 1'
+        assert tensor.shape[0] == self.__data[field].shape[0], f'The {field} field values are not distinct.'
 
     def __get_key_fields(self) -> pd.DataFrame:
         """
