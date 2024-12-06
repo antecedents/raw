@@ -5,7 +5,6 @@ import boto3
 import config
 import src.elements.locators
 import src.functions.directories
-import src.functions.secret
 import src.s3.configurations
 import src.s3.unload
 import src.source.boards
@@ -29,7 +28,6 @@ class Interface:
 
         # Hence
         self.__configurations = config.Config()
-        self.__secret = src.functions.secret.Secret(connector=connector)
 
     def __storage(self):
         """
