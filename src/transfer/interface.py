@@ -1,9 +1,9 @@
 """Module interface.py"""
 import logging
 import os
+
 import boto3
 
-import config
 import src.elements.s3_parameters as s3p
 import src.elements.service as sr
 import src.s3.ingress
@@ -34,7 +34,6 @@ class Interface:
         self.__metadata = src.transfer.metadata.Metadata(connector=connector).exc()
 
         # Instances
-        self.__configurations = config.Config()
         self.__dictionary = src.transfer.dictionary.Dictionary()
 
     def exc(self):
