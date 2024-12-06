@@ -55,7 +55,7 @@ class Data:
 
         tensor: np.ndarray = self.__data[field].unique()
 
-        assert tensor.shape[0] == 1, f'The number of distinct {field} values is > 1'
+        assert tensor.shape[0] == 1, f'The number of distinct {field} values is > 1.'
 
     def __get_key_fields(self):
         """
