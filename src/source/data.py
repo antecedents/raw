@@ -36,7 +36,6 @@ class Data:
 
         # Data
         self.__data = src.source.api.API().__call__(url=self.__url)
-        self.__data.info()
 
         self.__rename = {
             'WeekEndingDate': 'week_ending_date', 'HBT': 'health_board_code', 'TreatmentLocation': 'hospital_code',
