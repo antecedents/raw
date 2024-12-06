@@ -46,7 +46,6 @@ class Interface:
         # The strings for transferring data to Amazon S3 (Simple Storage Service)
         strings = self.__dictionary.exc(
             path=os.path.join(os.getcwd(), 'warehouse'), extension='csv', prefix=self.__s3_parameters.path_internal_data)
-        logging.info(strings)
 
         # Transfer
         messages = src.s3.ingress.Ingress(
