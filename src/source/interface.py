@@ -51,7 +51,7 @@ class Interface:
         :return:
         """
 
-        dictionary = src.s3.configurations.Configurations(connector=self.__connector).__call__(
+        dictionary = src.s3.configurations.Configurations(connector=self.__connector).serial(
             key_name=self.__configurations.locators)
 
         return src.elements.locators.Locators(**dictionary)
