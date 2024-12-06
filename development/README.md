@@ -12,7 +12,7 @@ For this Python project/template, the remote development environment requires
 An image is built via the command
 
 ```shell
-docker build . --file .devcontainer/Dockerfile -t uncertainty
+docker build . --file .devcontainer/Dockerfile -t series
 ```
 
 On success, the output of
@@ -27,12 +27,12 @@ should include
 
 | repository  | tag    | image id | created  | size     |
 |:------------|:-------|:---------|:---------|:---------|
-| uncertainty | latest | $\ldots$ | $\ldots$ | $\ldots$ |
+| series | latest | $\ldots$ | $\ldots$ | $\ldots$ |
 
 
 <br>
 
-Subsequently, run a container, i.e., an instance, of the image `uncertainty` via:
+Subsequently, run a container, i.e., an instance, of the image `series` via:
 
 <br>
 
@@ -40,7 +40,7 @@ Subsequently, run a container, i.e., an instance, of the image `uncertainty` via
 ```shell
 docker run --rm -i -t -p 8000:8000  
     -w /app --mount type=bind,src="$(pwd)",target=/app 
-      -v ~/.aws:/root/.aws uncertainty
+      -v ~/.aws:/root/.aws series
 ```
 
 <br>
@@ -54,7 +54,7 @@ Herein, `-p 8000:8000` maps the host port `8000` to container port `8000`.  Note
 
 <br>
 
-The part `-v ~/.aws:/root/.aws` ascertains Amazon Web Services interactions via containers. Get the name of the running instance of ``uncertainty`` via:
+The part `-v ~/.aws:/root/.aws` ascertains Amazon Web Services interactions via containers. Get the name of the running instance of ``series`` via:
 
 ```shell
 docker ps --all
