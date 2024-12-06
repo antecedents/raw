@@ -10,6 +10,7 @@ import src.s3.configurations
 import src.s3.unload
 import src.source.data
 import src.source.boards
+import src.source.institutions
 
 
 class Interface:
@@ -52,3 +53,4 @@ class Interface:
         # GET
         src.source.data.Data(url=locators.data).exc()
         src.source.boards.Boards(url=locators.boards).exc()
+        src.source.institutions.Institutions(url=locators.institutions)
