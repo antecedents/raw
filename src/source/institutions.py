@@ -36,8 +36,6 @@ class Institutions:
 
         # Data
         self.__data = src.source.api.API().__call__(url=self.__url)
-        self.__data.info()
-        logging.info(self.__data)
 
         self.__rename = {'HospitalCode': 'hospital_code', 'HospitalName': 'hospital_name',
                          'AddressLine1': 'address_line_1', 'AddressLine2': 'address_line_2',
