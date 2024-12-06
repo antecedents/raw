@@ -92,9 +92,9 @@ class Boards:
         frame = self.__get_key_fields()
 
         # Persist: Raw
-        message = self.__persist(blob=self.__data, path=os.path.join(self.__configurations.parent_, 'raw', 'references', 'boards.csv'))
+        message = self.__persist(blob=self.__data, path=os.path.join(self.__configurations.warehouse, 'raw', 'references', 'boards.csv'))
         logging.info(message)
 
         # Persist: Critical Fields
-        message = self.__persist(blob=frame, path=os.path.join(self.__configurations.parent_, 'latest', 'references', 'boards.csv'))
+        message = self.__persist(blob=frame, path=os.path.join(self.__configurations.warehouse, 'latest', 'references', 'boards.csv'))
         logging.info(message)
