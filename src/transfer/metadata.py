@@ -10,8 +10,10 @@ class Metadata:
 
         self.__objects = src.functions.objects.Objects()
 
-    def exc(self):
+    def exc(self) -> dict:
 
         uri = os.path.join(os.getcwd(), 'data', 'metadata.json')
         dictionary = self.__objects.read(uri=uri)
         logging.info(dictionary)
+
+        return dictionary
