@@ -1,6 +1,7 @@
 """Module interface.py"""
 import logging
 import os
+import boto3
 
 import config
 import src.elements.s3_parameters as s3p
@@ -15,7 +16,7 @@ class Interface:
     Class Interface
     """
 
-    def __init__(self, service: sr.Service,  s3_parameters: s3p):
+    def __init__(self, connector: boto3.session.Session, service: sr.Service,  s3_parameters: s3p):
         """
 
         :param service: A suite of services for interacting with Amazon Web Services.
@@ -27,7 +28,7 @@ class Interface:
         self.__s3_parameters: s3p.S3Parameters = s3_parameters
 
         # Metadata
-        self.__metadata = src.transfer.metadata.Metadata().exc()
+        self.__metadata = src.transfer.metadata.Metadata(connector=connector).exc()
 
         # Instances
         self.__configurations = config.Config()
@@ -45,6 +46,6 @@ class Interface:
         logging.info(strings)
 
         # Transfer
-        messages = src.s3.ingress.Ingress(
-            service=self.__service, bucket_name=self.__s3_parameters.internal).exc(strings=strings, metadata=self.__metadata)
-        logging.info(messages)
+        # messages = src.s3.ingress.Ingress(
+        #     service=self.__service, bucket_name=self.__s3_parameters.internal).exc(strings=strings, metadata=self.__metadata)
+        # logging.info(messages)
