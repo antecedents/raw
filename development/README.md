@@ -12,7 +12,7 @@ For this Python project/template, the remote development environment requires
 An image is built via the command
 
 ```shell
-docker build . --file .devcontainer/Dockerfile -t uncertainty
+docker build . --file .devcontainer/Dockerfile -t series
 ```
 
 On success, the output of
@@ -27,12 +27,12 @@ should include
 
 | repository  | tag    | image id | created  | size     |
 |:------------|:-------|:---------|:---------|:---------|
-| uncertainty | latest | $\ldots$ | $\ldots$ | $\ldots$ |
+| series | latest | $\ldots$ | $\ldots$ | $\ldots$ |
 
 
 <br>
 
-Subsequently, run a container, i.e., an instance, of the image `uncertainty` via:
+Subsequently, run a container, i.e., an instance, of the image `series` via:
 
 <br>
 
@@ -40,7 +40,7 @@ Subsequently, run a container, i.e., an instance, of the image `uncertainty` via
 ```shell
 docker run --rm -i -t -p 8000:8000  
     -w /app --mount type=bind,src="$(pwd)",target=/app 
-      -v ~/.aws:/root/.aws uncertainty
+      -v ~/.aws:/root/.aws series
 ```
 
 <br>
@@ -54,7 +54,7 @@ Herein, `-p 8000:8000` maps the host port `8000` to container port `8000`.  Note
 
 <br>
 
-The part `-v ~/.aws:/root/.aws` ascertains Amazon Web Services interactions via containers. Get the name of the running instance of ``uncertainty`` via:
+The part `-v ~/.aws:/root/.aws` ascertains Amazon Web Services interactions via containers. Get the name of the running instance of ``series`` via:
 
 ```shell
 docker ps --all
@@ -152,93 +152,6 @@ inspects complexity.
 <br>
 <br>
 
-
-## References
-
-### Articles
-
-* [Population Based Training](https://deepmind.google/discover/blog/population-based-training-of-neural-networks/), ([paper](https://arxiv.org/abs/1711.09846))
-
-<br>
-
-### Modelling
-
-#### Configuring, etc.
-
-* [AutoModel.from_pretrained](https://huggingface.co/docs/transformers/v4.42.0/en/model_doc/auto#transformers.AutoModel.from_pretrained)
-  * [pre-trained configuration](https://huggingface.co/docs/transformers/v4.42.0/en/main_classes/configuration#transformers.PretrainedConfig)
-  * [PreTrainedTokenizerFast](https://huggingface.co/docs/transformers/v4.42.0/en/main_classes/tokenizer#transformers.PreTrainedTokenizerFast)
-
-* [Configurations of tasks that include text generation steps](https://huggingface.co/docs/transformers/main_classes/text_generation)
-  * Beware, configuration settings methods are undergoing changes.  Instead: [default text generation configuration.](https://huggingface.co/docs/transformers/generation_strategies#default-text-generation-configuration)
-  * [generation configuration](https://huggingface.co/docs/transformers/v4.42.0/en/main_classes/text_generation#transformers.GenerationConfig)
-  * [from_pretrained](https://huggingface.co/docs/transformers/v4.42.0/en/main_classes/text_generation#transformers.GenerationConfig.from_pretrained)
-
-<br>
-
-#### Hyperparameters
-
-* [Hyperparameter Tuning with Ray Tune](https://docs.ray.io/en/latest/train/user-guides/hyperparameter-optimization.html)
-  * [Getting Started with Ray Tune](https://docs.ray.io/en/latest/tune/getting-started.html)
-  * [train hyperparameter search](https://docs.ray.io/en/latest/tune/examples/pbt_transformers.html)
-  * [Logging and Outputs in Tune](https://docs.ray.io/en/latest/tune/tutorials/tune-output.html)
-  * [Tune Experiments](https://docs.ray.io/en/latest/tune/examples/tune_analyze_results.html)
-
-* [Using Huggingface Transformers with Tune](https://docs.ray.io/en/latest/tune/examples/pbt_transformers.html)
-  * [Configure PBT and Tuner](https://docs.ray.io/en/latest/tune/examples/pbt_visualization/pbt_visualization.html)
-  * [ray.tune.schedulers.PopulationBasedTraining](https://docs.ray.io/en/latest/tune/api/doc/ray.tune.schedulers.PopulationBasedTraining.html), [schedulers](https://docs.ray.io/en/latest/tune/api/schedulers.html)
-  * [ray.tune.Tuner](https://docs.ray.io/en/latest/tune/api/doc/ray.tune.Tuner.html)
-  * [tune_basic_example](https://docs.ray.io/en/latest/tune/examples/includes/tune_basic_example.html)
-  * [A Guide To Parallelism and Resources for Ray Tune](https://docs.ray.io/en/latest/tune/tutorials/tune-resources.html)
-
-<br>
-
-#### Logging: Model & System
-* [Logging and Outputs in Tune](https://docs.ray.io/en/latest/tune/tutorials/tune-output.html)
-  * And, using TensorBoard
-  * [Loggers](https://docs.ray.io/en/latest/tune/tutorials/tune-output.html#how-to-build-custom-tune-loggers)
-  * [Logging](https://docs.ray.io/en/latest/tune/examples/includes/logging_example.html)
-* [TensorboardX](https://tensorboardx.readthedocs.io/en/latest/tutorial.html#what-is-tensorboard-x) (Pytorch)
-* [Ray Dashboard: Getting Started](https://docs.ray.io/en/latest/ray-observability/getting-started.html)
-* [Ray, Grafana, Prometheus](https://docs.ray.io/en/latest/cluster/configure-manage-dashboard.html#embed-grafana-visualizations-into-ray-dashboard)
-* [ray.init()](https://docs.ray.io/en/latest/ray-core/api/doc/ray.init.html)
-* [Application & Cluster Metrics](https://docs.ray.io/en/latest/cluster/metrics.html)
-* [Usage Stats Collection](https://docs.ray.io/en/latest/cluster/usage-stats.html)
-* [seqeval](https://huggingface.co/spaces/evaluate-metric/seqeval/blob/main/seqeval.py)
-
-<br>
-
-#### Distributed Training
-* [Distributed Communication](https://docs.w3cub.com/pytorch/distributed.html)
-* [PyTorch Distributed Overview](https://pytorch.org/tutorials/beginner/dist_overview.html)
-* [Get Started with Distributed Training using Hugging Face Transformers](https://docs.ray.io/en/latest/train/getting-started-transformers.html)
-* [Get Started with Distributed Training using Hugging Face Transformers](https://docs.ray.io/en/latest/train/getting-started-transformers.html#transformerstrainer-migration-guide)
-* [Token classification](https://huggingface.co/docs/transformers/tasks/token_classification)
-
-
-<br>
-
-#### File Formats
-* GGUF: GPT-Generated Unified Format[^gpt]
-* GGML: GPT-Generated Model Language
-* [What is GGUF and GGML?](https://medium.com/@phillipgimmi/what-is-gguf-and-ggml-e364834d241c)
-* [About GGUF](https://github.com/ggerganov/ggml/blob/master/docs/gguf.md)
-* [to GGUF](https://medium.com/@qdrddr/the-easiest-way-to-convert-a-model-to-gguf-and-quantize-91016e97c987)
-* [to GGUF discussion](https://github.com/ggerganov/llama.cpp/discussions/2948)
-* [Hugging Face & GGUF](https://huggingface.co/docs/hub/gguf)
-
-<br>
-
-### Docker, etc.
-
-* [Setup Grafana with Prometheus for Python projects using Docker](https://dev.to/thedevtimeline/setup-grafana-with-prometheus-for-python-projects-using-docker-4o5g)
-* [Interactive shell using Docker Compose](https://betterstack.com/community/questions/question-interactive-shell-using-docker-compose/)
-* [Docker Compose Quickstart](https://docs.docker.com/compose/gettingstarted/)
-* [Development Environments](https://docs.docker.com/compose/intro/features-uses/#development-environments)
-* [Interactive Shell Using Docker](https://www.baeldung.com/ops/docker-compose-interactive-shell)
-* [Remote Development](https://www.docker.com/blog/containerized-python-development-part-1/)
-* [Django Development with Docker Compose and Machine](https://realpython.com/django-development-with-docker-compose-and-machine/)
-
 <br>
 <br>
 
@@ -247,10 +160,3 @@ inspects complexity.
 
 <br>
 <br>
-
-<br>
-<br>
-
-[^tracking]: [Python, Grafana, Prometheus, Docker](https://dev.to/thedevtimeline/setup-grafana-with-prometheus-for-python-projects-using-docker-4o5g)
-
-[^gpt]: GPT: Generative Pre-trained Transformer

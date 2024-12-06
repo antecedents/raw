@@ -7,6 +7,8 @@ import pathlib
 import pandas as pd
 import requests
 
+import src.elements.text_attributes as txa
+
 
 class Streams:
     """
@@ -43,53 +45,44 @@ class Streams:
             raise ValueError(err.strerror) from err
 
     @staticmethod
-    def read(uri: str, header: int = 0, usecols: list = None, dtype: dict = None,
-             date_fields: list = None, date_format: dict = None) -> pd.DataFrame:
+    def read(text: txa.TextAttributes) -> pd.DataFrame:
         """
 
-        :param uri: The uniform resource identifier; path + file + extension string.
-        :param header: The header row of the `csv` file
-        :param usecols: The fields in focus
-        :param dtype: Dictionary of type per field
-        :param date_fields: The list of data fields, if any.
-        :param date_format: The date format per date field
+        :param text: Includes uri: str, header: int = 0, usecols: list = None,
+                     dtype: dict = None, date_fields: list = None,
+                     date_format: dict = None.
         :return:
         """
 
-        if date_fields is None:
+        if text.date_fields is None:
             parse_dates = False
         else:
-            parse_dates = date_fields
+            parse_dates = text.date_fields
 
         try:
-            return pd.read_csv(filepath_or_buffer=uri, header=header, usecols=usecols, dtype=dtype,
-                               encoding='utf-8', parse_dates=parse_dates, date_format=date_format)
+            return pd.read_csv(filepath_or_buffer=text.uri, header=text.header, usecols=text.usecols, dtype=text.dtype,
+                               encoding='utf-8', parse_dates=parse_dates, date_format=text.date_format)
         except ImportError:
             return pd.DataFrame()
 
-    def api(self, uri: str, header: int = 0, usecols: list = None, dtype: dict = None,
-            date_fields: list = None, date_format: dict = None) -> pd.DataFrame:
+    def api(self, text: txa.TextAttributes) -> pd.DataFrame:
         """
 
-        :param uri: The uniform resource identifier; path + file + extension string.
-        :param header: The header row of the `csv` file
-        :param usecols: The fields in focus
-        :param dtype: Dictionary of type per field
-        :param date_fields: The list of data fields, if any.
-        :param date_format: The date format per date field
+        :param text: Includes uri: str, header: int = 0, usecols: list = None,
+                     dtype: dict = None, date_fields: list = None,
+                     date_format: dict = None.
         :return:
         """
 
         data = pd.DataFrame()
 
         try:
-            response = requests.head(url=uri, timeout=300)
+            response = requests.head(url=text.uri, timeout=300)
             response.raise_for_status()
         except requests.exceptions.HTTPError as err:
             raise ValueError(f'HTTP Error: {err}') from err
 
         if response.status_code == 200:
-            data = self.read(uri=uri, header=header, usecols=usecols,
-                             dtype=dtype, date_fields=date_fields, date_format=date_format)
+            data = self.read(text=text)
 
         return data
