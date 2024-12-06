@@ -30,7 +30,8 @@ class Ingress:
     @dask.delayed
     def __ingress(self, file: str, key: str, metadata: dict, tagging: str='') -> str:
         """
-        <a href="https://boto3.amazonaws.com/v1/documentation/api/latest/reference/customizations/s3.html#boto3.s3.transfer.S3Transfer.ALLOWED_UPLOAD_ARGS">
+        <a href="https://boto3.amazonaws.com/v1/documentation/api/latest/reference/
+        customizations/s3.html#boto3.s3.transfer.S3Transfer.ALLOWED_UPLOAD_ARGS">
         ALLOWED_UPLOAD_ARGUMENTS</a><br>
 
         :param file: The local file string, i.e., <path> + <file name> + <extension>,
