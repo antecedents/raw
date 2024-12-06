@@ -1,5 +1,4 @@
 """Module setup.py"""
-import logging
 
 import config
 import src.elements.s3_parameters as s3p
