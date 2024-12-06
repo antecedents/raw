@@ -1,6 +1,6 @@
 """Module data.py"""
-import logging
 import datetime
+import logging
 import os
 
 import numpy as np
@@ -19,7 +19,7 @@ class Data:
     This class
         <ul>
             <li>Retrieves and saves the current version of the raw data.</li>
-            <li> Extracts and structures the relevant fields; then saves.</li>
+            <li>Extracts and structures the relevant fields for modelling & analysis; subsequently saves.</li>
         </ul>
     """
 
