@@ -28,11 +28,10 @@ class Data:
 
         :param url: The uniform resource locator of the data
         """
-        
+
         self.__url = url
 
         # Instances
-        self.__configurations = config.Config()
         self.__streams = src.functions.streams.Streams()
 
         # Data
@@ -86,6 +85,8 @@ class Data:
         :return:
         """
 
+        configurations = config.Config()
+
 
         # Assert
         self.__inspect(field='DepartmentType')
@@ -96,9 +97,11 @@ class Data:
 
         # Persist: Raw
         stamp = datetime.datetime.now().strftime('%Y-%m-%d')
-        message = self.__persist(blob=self.__data, path=os.path.join(self.__configurations.warehouse, 'raw', 'data', f'{stamp}.csv'))
+        message = self.__persist(blob=self.__data, path=os.path.join(
+            configurations.warehouse, 'raw', 'data', f'{stamp}.csv'))
         logging.info(message)
 
         # Persist: Critical Fields
-        message = self.__persist(blob=frame, path=os.path.join(self.__configurations.warehouse, 'latest', 'data', 'data.csv'))
+        message = self.__persist(blob=frame, path=os.path.join(
+            configurations.warehouse, 'latest', 'data', 'data.csv'))
         logging.info(message)
