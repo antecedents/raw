@@ -25,4 +25,4 @@ class Config:
 
         # Configuration files
         self.s3_parameters_key = 's3_parameters.yaml'
-        self.locators = 'locators.yaml'
+        self.locators = 'raw/locators.yaml'
