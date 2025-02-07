@@ -61,9 +61,9 @@ class Setup:
         bucket = src.s3.bucket.Bucket(service=self.__service, location_constraint=self.__s3_parameters.location_constraint,
                                       bucket_name=self.__s3_parameters.internal)
 
-        # If the bucket exist, the prefix path is cleared.  Otherwise, the bucket is created.
+        # If the bucket exist ...
         if bucket.exists():
-            self.__clear_prefix()
+            return True
 
         return bucket.create()
 
