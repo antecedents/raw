@@ -25,9 +25,9 @@ should include
 
 <br>
 
-| repository  | tag    | image id | created  | size     |
-|:------------|:-------|:---------|:---------|:---------|
-| points | latest | $\ldots$ | $\ldots$ | $\ldots$ |
+| repository | tag    | image id | created  | size     |
+|:-----------|:-------|:---------|:---------|:---------|
+| points     | latest | $\ldots$ | $\ldots$ | $\ldots$ |
 
 
 <br>
