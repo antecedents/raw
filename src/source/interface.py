@@ -66,5 +66,3 @@ class Interface:
 
         # GET
         src.source.data.Data(url=locators.data).exc()
-        src.source.boards.Boards(url=locators.boards).exc()
-        src.source.institutions.Institutions(url=locators.institutions).exc()
