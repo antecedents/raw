@@ -4,6 +4,9 @@ import pandas as pd
 
 
 class Inspect:
+    """
+    Class Inspect
+    """
 
     def __init__(self, data: pd.DataFrame):
         """
