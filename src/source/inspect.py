@@ -56,3 +56,9 @@ class Inspect:
             'The # of attendance categories is > 1; there should be 1, i.e., Unplanned, only.'
         assert np.all(np.char.equal(tensor, c_attendance_category)), \
             f'Invalid attendance category.  The attendance category of each instance should be {c_attendance_category}'
+
+    def exc(self):
+
+        self.__department_type()
+        self.__country()
+        self.__attendance_category()
