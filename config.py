@@ -20,7 +20,7 @@ class Config:
         self.warehouse = os.path.join(os.getcwd(), 'warehouse')
         self.data_ = os.path.join(self.warehouse, 'data', 'raw')
 
-        # Configuration files
+        # Configurations files, paths
         self.s3_parameters_key = 's3_parameters.yaml'
-        self.locators = 'raw/locators.yaml'
-        self.metadata = 'raw/metadata.json'
+        self.sources = 'sources.yaml'
+        self.metadata_ = 'metadata'
