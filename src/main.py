@@ -19,7 +19,7 @@ def main():
     logger.info('Starting: %s', datetime.datetime.now().isoformat(timespec='microseconds'))
 
     # Set up
-    setup: bool = src.setup.Setup(service=service, s3_parameters=s3_parameters).exc()
+    setup: bool = src.setup.Setup(service=service, s3_parameters=s3_parameters, restart=restart).exc()
     if not setup:
         src.functions.cache.Cache().exc()
         sys.exit('No Executions')
