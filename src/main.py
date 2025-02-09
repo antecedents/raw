@@ -1,4 +1,5 @@
 """Module main.py"""
+import argparse
 import datetime
 import logging
 import os
@@ -44,12 +45,22 @@ if __name__ == '__main__':
                         datefmt='%Y-%m-%d %H:%M:%S')
 
     # Classes
+    import src.functions.arguments
     import src.functions.cache
     import src.functions.service
     import src.s3.s3_parameters
     import src.setup
     import src.source.interface
     import src.transfer.interface
+
+    arguments = src.functions.arguments.Arguments()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--restart', type=arguments.restart,
+                        help='The only valid string is restart, which deletes raw data assets.')
+    args = parser.parse_args()
+
+    # Restart
+    restart = False if args.restart is None else args.restart
 
     # S3 S3Parameters, Service Instance
     connector = boto3.session.Session()
