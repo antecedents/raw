@@ -17,19 +17,25 @@ class Setup:
     Sets up local & cloud environments
     """
 
-    def __init__(self, service: sr.Service, s3_parameters: s3p.S3Parameters):
+    def __init__(self, service: sr.Service, s3_parameters: s3p.S3Parameters, restart: bool = False):
         """
 
         :param service: A suite of services for interacting with Amazon Web Services.
         :param s3_parameters: The overarching S3 parameters settings of this project, e.g., region code
                               name, buckets, etc.
+        :param restart: Restart?
         """
 
         self.__service: sr.Service = service
         self.__s3_parameters: s3p.S3Parameters = s3_parameters
+        self.__restart = restart
+
+        # Configurations
         self.__configurations = config.Config()
 
-        self.__prefix = s3_parameters.path_internal_data + '/' + 'latest'
+        # Amazon S3 (Simple Storage Service) prefix; herein, the string between the bucket name and the bucket
+        # section hosting the files of interest.
+        self.__prefix = s3_parameters.path_internal_data + '/' + 'raw'
 
     def __clear_prefix(self) -> bool:
         """
@@ -61,9 +67,9 @@ class Setup:
         bucket = src.s3.bucket.Bucket(service=self.__service, location_constraint=self.__s3_parameters.location_constraint,
                                       bucket_name=self.__s3_parameters.internal)
 
-        # If the bucket exist ...
+        # If the bucket exist, clear the raw data section if a restart has been requested.
         if bucket.exists():
-            return True
+            return self.__clear_prefix() if self.__restart else True
 
         return bucket.create()
 
@@ -76,7 +82,7 @@ class Setup:
         directories = src.functions.directories.Directories()
         directories.cleanup(path=self.__configurations.warehouse)
 
-        return directories.create(path=self.__configurations.warehouse)
+        return directories.create(path=self.__configurations.data_)
 
     def exc(self) -> bool:
         """
