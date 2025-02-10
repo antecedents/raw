@@ -1,6 +1,8 @@
 """Module dictionary.py"""
+import logging
 import glob
 import os
+import pathlib
 
 import pandas as pd
 
@@ -51,5 +53,7 @@ class Dictionary:
 
         # Building the Amazon S3 strings
         frame = local.assign(key=prefix + local["vertex"])
+        frame = frame.assign(name=frame['key'].apply(lambda x: str(pathlib.Path(x).stem)))
+        logging.info(frame)
 
-        return frame[['file', 'key']]
+        return frame[['file', 'key', 'name']]
