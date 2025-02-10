@@ -3,6 +3,7 @@ import logging
 import os
 
 import boto3
+import pandas as pd
 
 import src.elements.s3_parameters as s3p
 import src.elements.service as sr
@@ -31,10 +32,23 @@ class Interface:
         self.__s3_parameters: s3p.S3Parameters = s3_parameters
 
         # Metadata
-        self.__metadata = src.transfer.metadata.Metadata(connector=connector).exc()
+        self.__metadata = src.transfer.metadata.Metadata(connector=connector)
 
         # Instances
         self.__dictionary = src.transfer.dictionary.Dictionary()
+
+    def __get_metadata(self, frame: pd.DataFrame) -> pd.DataFrame:
+        """
+
+        :param frame:
+        :return:
+        """
+
+        frame = frame.assign(
+            metadata = frame['section'].apply(
+                lambda x: self.__metadata.exc(name='data.json') if x == 'raw' else {}))
+
+        return frame
 
     def exc(self):
         """
@@ -44,9 +58,15 @@ class Interface:
 
         # The strings for transferring data to Amazon S3 (Simple Storage Service)
         strings = self.__dictionary.exc(
-            path=os.path.join(os.getcwd(), 'warehouse'), extension='csv', prefix=self.__s3_parameters.path_internal_data)
+            path=os.path.join(os.getcwd(), 'warehouse'), extension='csv', prefix='')
+        logging.info(strings)
+
+        # Adding metadata details per instance
+        strings = self.__get_metadata(frame=strings.copy())
+        logging.info(strings)
 
         # Transfer
         messages = src.s3.ingress.Ingress(
-            service=self.__service, bucket_name=self.__s3_parameters.internal).exc(strings=strings, metadata=self.__metadata)
+            service=self.__service, bucket_name=self.__s3_parameters.internal).exc(
+            strings=strings, tagging='project=emergency')
         logging.info(messages)

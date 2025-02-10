@@ -3,12 +3,12 @@ import datetime
 import logging
 import os
 
-import numpy as np
 import pandas as pd
 
 import config
 import src.functions.streams
 import src.source.api
+import src.source.inspect
 
 
 class Data:
@@ -31,44 +31,56 @@ class Data:
 
         self.__url = url
 
-        # Instances
-        self.__streams = src.functions.streams.Streams()
-
-        # Data
-        self.__data = src.source.api.API().__call__(url=self.__url)
-
+        # Configurations
+        self.__configurations = config.Config()
         self.__rename = {
             'WeekEndingDate': 'week_ending_date', 'HBT': 'health_board_code', 'TreatmentLocation': 'hospital_code',
             'NumberOfAttendancesEpisode': 'n_attendances', 'NumberWithin4HoursEpisode': 'n_within_4_hours', 
             'NumberOver4HoursEpisode': 'n_over_4_hours', 'NumberOver8HoursEpisode': 'n_over_8_hours', 
-            'NumberOver12HoursEpisode': 'n_over_12_hours'}
+            'NumberOver12HoursEpisode': 'n_over_12_hours', 'DepartmentType': 'department_type',
+            'AttendanceCategory': 'attendance_category'}
 
-    def __inspect(self, field: str):
-        """
-        This function checks whether a specified field has a single distinct value only.
-
-        :param field: A field of interest
-        :return:
-        """
-
-        tensor: np.ndarray = self.__data[field].unique()
-
-        assert tensor.shape[0] == 1, f'The number of distinct {field} values is > 1.'
-
-    def __get_key_fields(self):
+    def __get_data(self) -> pd.DataFrame:
         """
 
         :return:
         """
 
-        frame = self.__data.copy()[self.__rename.keys()]
+        space = '%20'
+        string = self.__url + f"&limit=1000000&q='Type{space}1,Unplanned'"
+        logging.info(string)
+
+        return src.source.api.API()(url=string)
+
+    def __get_key_fields(self, data: pd.DataFrame):
+        """
+
+        :return:
+        """
+
+        frame = data.copy()[self.__rename.keys()]
         frame.rename(columns=self.__rename, inplace=True)
-        frame['week_ending_date'] = pd.to_datetime(
-            frame['week_ending_date'].astype(dtype=str), errors='coerce', format='%Y%m%d')
 
         return frame
 
-    def __persist(self, blob: pd.DataFrame, path: str):
+    @staticmethod
+    def __formats(data: pd.DataFrame):
+        """
+
+        :param data:
+        :return:
+        """
+
+        data['week_ending_date'] = pd.to_datetime(
+            data['week_ending_date'].astype(dtype=str), errors='coerce', format='%Y%m%d')
+
+        for field in ['department_type', 'attendance_category']:
+            data[field] = data[field].str.title()
+
+        return data
+
+    @staticmethod
+    def __persist(blob: pd.DataFrame, path: str):
         """
 
         :param blob: The data being saved.
@@ -76,7 +88,9 @@ class Data:
         :return:
         """
 
-        return self.__streams.write(blob=blob, path=path)
+        streams = src.functions.streams.Streams()
+
+        return streams.write(blob=blob, path=path)
 
     def exc(self) -> None:
         """
@@ -84,23 +98,23 @@ class Data:
         :return:
         """
 
-        configurations = config.Config()
-
+        data = self.__get_data()
 
         # Assert
-        self.__inspect(field='DepartmentType')
-        self.__inspect(field='Country')
+        src.source.inspect.Inspect(data=data).exc()
 
         # The critical data fields
-        frame = self.__get_key_fields()
+        data = self.__get_key_fields(data=data.copy())
+        frame = self.__formats(data=data.copy())
+        logging.info(frame)
 
-        # Persist: Raw
-        stamp = datetime.datetime.now().strftime('%Y-%m-%d')
-        message = self.__persist(blob=self.__data, path=os.path.join(
-            configurations.warehouse, 'raw', 'data', f'{stamp}.csv'))
-        logging.info(message)
+        # Date Stamp: The most recent Tuesday.  The code of Tuesday is 1, hence now.weekday() - 1
+        now = datetime.datetime.now()
+        offset = (now.weekday() - 1) % 7
+        tuesday = now - datetime.timedelta(days=offset)
+        stamp = tuesday.strftime('%Y-%m-%d')
+        logging.info(stamp)
 
-        # Persist: Critical Fields
-        message = self.__persist(blob=frame, path=os.path.join(
-            configurations.warehouse, 'latest', 'data', 'data.csv'))
+        # Persist
+        message = self.__persist(blob=frame, path=os.path.join(self.__configurations.data_, f'{stamp}.csv'))
         logging.info(message)

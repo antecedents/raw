@@ -12,7 +12,7 @@ For this Python project/template, the remote development environment requires
 An image is built via the command
 
 ```shell
-docker build . --file .devcontainer/Dockerfile -t series
+docker build . --file .devcontainer/Dockerfile -t points
 ```
 
 On success, the output of
@@ -25,14 +25,14 @@ should include
 
 <br>
 
-| repository  | tag    | image id | created  | size     |
-|:------------|:-------|:---------|:---------|:---------|
-| series | latest | $\ldots$ | $\ldots$ | $\ldots$ |
+| repository | tag    | image id | created  | size     |
+|:-----------|:-------|:---------|:---------|:---------|
+| points     | latest | $\ldots$ | $\ldots$ | $\ldots$ |
 
 
 <br>
 
-Subsequently, run a container, i.e., an instance, of the image `series` via:
+Subsequently, run a container, i.e., an instance, of the image `points` via:
 
 <br>
 
@@ -40,7 +40,7 @@ Subsequently, run a container, i.e., an instance, of the image `series` via:
 ```shell
 docker run --rm -i -t -p 8000:8000  
     -w /app --mount type=bind,src="$(pwd)",target=/app 
-      -v ~/.aws:/root/.aws series
+      -v ~/.aws:/root/.aws points
 ```
 
 <br>
@@ -54,7 +54,7 @@ Herein, `-p 8000:8000` maps the host port `8000` to container port `8000`.  Note
 
 <br>
 
-The part `-v ~/.aws:/root/.aws` ascertains Amazon Web Services interactions via containers. Get the name of the running instance of ``series`` via:
+The part `-v ~/.aws:/root/.aws` ascertains Amazon Web Services interactions via containers. Get the name of the running instance of ``points`` via:
 
 ```shell
 docker ps --all

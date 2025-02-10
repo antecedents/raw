@@ -52,4 +52,4 @@ class Dictionary:
         # Building the Amazon S3 strings
         frame = local.assign(key=prefix + local["vertex"])
 
-        return frame[['file', 'key']]
+        return frame[['file', 'key', 'section']]

@@ -1,4 +1,4 @@
-name: For Accident & Emergency Forecasting Project
+name: 'Accident & Emergency: Raw'
 
 on: [push]
 
@@ -116,7 +116,7 @@ jobs:
   packages:
     name: GitHub Packages Container Registry
     needs: build
-    if: ${{ true }}
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
 
     permissions:

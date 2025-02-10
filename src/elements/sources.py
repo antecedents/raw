@@ -4,7 +4,7 @@ This is data type S3Parameters
 import typing
 
 
-class Locators(typing.NamedTuple):
+class Sources(typing.NamedTuple):
     """
     The data type class ⇾ Locators<br><br>
 

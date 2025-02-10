@@ -23,14 +23,15 @@ class Metadata:
         """
 
         self.__connector = connector
+        self.__configurations = config.Config()
 
-    def exc(self) -> dict:
+    def exc(self, name: str) -> dict:
         """
 
         :return:
         """
 
         dictionary = src.s3.configurations.Configurations(connector=self.__connector).objects(
-            key_name=config.Config().metadata)
+            key_name=self.__configurations.metadata_ + '/' + name)
 
         return dictionary

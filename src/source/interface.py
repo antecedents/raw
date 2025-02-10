@@ -1,15 +1,13 @@
 """Module interface.py"""
+import logging
 
 import boto3
 
 import config
-import src.elements.locators
+import src.elements.sources
 import src.functions.directories
 import src.s3.configurations
-import src.s3.unload
-import src.source.boards
 import src.source.data
-import src.source.institutions
 
 
 class Interface:
@@ -28,19 +26,9 @@ class Interface:
         # Hence
         self.__configurations = config.Config()
 
-    def __storage(self):
-        """
-        Creates all the paths for the graphing data.
 
-        :return:
-        """
 
-        directories = src.functions.directories.Directories()
-
-        for value in self.__configurations.data_:
-            directories.create(value)
-
-    def __locators(self):
+    def __sources(self):
         """
         Retrieves the uniform resource locator strings of the data, and its references.
 
@@ -48,9 +36,9 @@ class Interface:
         """
 
         dictionary = src.s3.configurations.Configurations(connector=self.__connector).serial(
-            key_name=self.__configurations.locators)
+            key_name=self.__configurations.sources)
 
-        return src.elements.locators.Locators(**dictionary)
+        return src.elements.sources.Sources(**dictionary)
 
     def exc(self):
         """
@@ -58,13 +46,9 @@ class Interface:
         :return:
         """
 
-        # Preparing the temporary local storage areas
-        self.__storage()
-
         # The uniform resource locator strings of the references & data
-        locators = self.__locators()
+        sources = self.__sources()
+        logging.info(sources)
 
         # GET
-        src.source.data.Data(url=locators.data).exc()
-        src.source.boards.Boards(url=locators.boards).exc()
-        src.source.institutions.Institutions(url=locators.institutions).exc()
+        src.source.data.Data(url=sources.data).exc()
