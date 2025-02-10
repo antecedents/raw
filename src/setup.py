@@ -35,7 +35,7 @@ class Setup:
 
         # Amazon S3 (Simple Storage Service) prefix; herein, the string between the bucket name and the bucket
         # section hosting the files of interest.
-        self.__prefix = s3_parameters.path_internal_data + '/' + 'raw'
+        self.__prefix = s3_parameters.path_internal_data
 
     def __clear_prefix(self) -> bool:
         """
