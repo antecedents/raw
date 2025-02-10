@@ -1,4 +1,5 @@
 """Module inspect.py"""
+import logging
 import numpy as np
 import pandas as pd
 
@@ -15,6 +16,7 @@ class Inspect:
         """
 
         self.__data = data
+        logging.info(self.__data[['Country', 'DepartmentType', 'AttendanceCategory']])
 
     def __department_type(self):
         """
@@ -23,9 +25,10 @@ class Inspect:
         """
 
         tensor: np.ndarray = self.__data['DepartmentType'].unique()
+        logging.info(type(tensor))
 
         assert tensor.shape[0] == 1, 'The # of distinct department types is > 1'
-        assert np.all(np.char.equal(tensor, 'Type 1')), 'The department type of each instance must be Type 1'
+        assert np.all(np.equal(tensor, 'Type 1')), 'The department type of each instance must be Type 1'
 
     def __country(self):
         """
@@ -39,7 +42,7 @@ class Inspect:
 
         assert tensor.shape[0] == 1, \
             f'Error.  The data should be the data of a single country; {tensor.shape[0]} countries are present.'
-        assert np.all(np.char.equal(tensor, c_country)), \
+        assert np.all(np.equal(tensor, c_country)), \
             f'Invalid country code.  The country code of each instance should be {c_country}'
 
     def __attendance_category(self):
@@ -54,7 +57,7 @@ class Inspect:
 
         assert tensor.shape[0] == 1, \
             'The # of attendance categories is > 1; there should be 1, i.e., Unplanned, only.'
-        assert np.all(np.char.equal(tensor, c_attendance_category)), \
+        assert np.all(np.equal(tensor, c_attendance_category)), \
             f'Invalid attendance category.  The attendance category of each instance should be {c_attendance_category}'
 
     def exc(self):
