@@ -1,4 +1,4 @@
-name: For Accident & Emergency Forecasting Project
+name: 'Accident & Emergency: Raw'
 
 on: [push]
 
