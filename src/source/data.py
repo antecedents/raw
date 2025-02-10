@@ -46,7 +46,11 @@ class Data:
         :return:
         """
 
-        return src.source.api.API()(url=self.__url + "&limit=1000000&q='Type 1,Unplanned'")
+        space = '%20'
+        string = self.__url + f"&limit=1000000&q='Type{space}1,Unplanned'"
+        logging.info(string)
+
+        return src.source.api.API()(url=string)
 
     def __get_key_fields(self, data: pd.DataFrame):
         """
@@ -102,8 +106,14 @@ class Data:
         # The critical data fields
         data = self.__get_key_fields(data=data.copy())
         frame = self.__formats(data=data.copy())
+        logging.info(frame)
 
         # Persist
+        now = datetime.datetime.now()
+        offset = (now.weekday() - 1) % 7
+        tuesday = now - datetime.timedelta(days=offset)
+        logging.info(tuesday.strftime('%Y-%m-%d'))
+
         stamp = datetime.datetime.now().strftime('%Y-%m-%d')
         message = self.__persist(blob=frame, path=os.path.join(self.__configurations.data_, f'{stamp}.csv'))
         logging.info(message)
