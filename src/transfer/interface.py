@@ -31,7 +31,8 @@ class Interface:
         self.__s3_parameters: s3p.S3Parameters = s3_parameters
 
         # Metadata
-        self.__metadata = src.transfer.metadata.Metadata(connector=connector).exc()
+        self.__metadata = src.transfer.metadata.Metadata(connector=connector)
+        logging.info(self.__metadata)
 
         # Instances
         self.__dictionary = src.transfer.dictionary.Dictionary()
@@ -48,5 +49,5 @@ class Interface:
 
         # Transfer
         messages = src.s3.ingress.Ingress(
-            service=self.__service, bucket_name=self.__s3_parameters.internal).exc(strings=strings, metadata=self.__metadata)
+            service=self.__service, bucket_name=self.__s3_parameters.internal).exc(strings=strings)
         logging.info(messages)
