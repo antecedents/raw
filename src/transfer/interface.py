@@ -3,6 +3,7 @@ import logging
 import os
 
 import boto3
+import pandas as pd
 
 import src.elements.s3_parameters as s3p
 import src.elements.service as sr
@@ -32,10 +33,21 @@ class Interface:
 
         # Metadata
         self.__metadata = src.transfer.metadata.Metadata(connector=connector)
-        logging.info(self.__metadata)
 
         # Instances
         self.__dictionary = src.transfer.dictionary.Dictionary()
+
+    def __get_metadata(self, frame: pd.DataFrame) -> pd.DataFrame:
+        """
+
+        :param frame:
+        :return:
+        """
+
+        frame = frame.assign(
+            metadata = frame['name'].apply(lambda x: self.__metadata.exc(name=x + '.json')))
+
+        return frame
 
     def exc(self):
         """
@@ -45,7 +57,12 @@ class Interface:
 
         # The strings for transferring data to Amazon S3 (Simple Storage Service)
         strings = self.__dictionary.exc(
-            path=os.path.join(os.getcwd(), 'warehouse'), extension='csv', prefix=self.__s3_parameters.path_internal_data)
+            path=os.path.join(os.getcwd(), 'warehouse'), extension='csv', prefix='')
+        logging.info(strings)
+
+        # Adding metadata details per instance
+        strings = self.__get_metadata(frame=strings.copy())
+        logging.info(strings)
 
         # Transfer
         messages = src.s3.ingress.Ingress(
