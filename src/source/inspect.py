@@ -60,7 +60,11 @@ class Inspect:
         assert np.all(np.equal(tensor, c_attendance_category)), \
             f'Invalid attendance category.  The attendance category of each instance should be {c_attendance_category}'
 
-    def exc(self):
+    def exc(self) -> None:
+        """
+
+        :return:
+        """
 
         self.__department_type()
         self.__country()
