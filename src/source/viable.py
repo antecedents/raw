@@ -26,9 +26,6 @@ class Viable:
         self.__configurations = config.Config()
         self.__streams = src.functions.streams.Streams()
 
-        # Requisite fields
-        self.__fields = ['week_ending_date', 'health_board_code', 'hospital_code', 'n_attendances']
-
     def __filter(self, blob: pd.DataFrame):
         """
 
@@ -55,7 +52,7 @@ class Viable:
         """
 
         frame = self.__filter(blob=data)
-        frame = frame.copy()[self.__fields]
+        frame = frame.copy()[self.__configurations.fields]
 
         # Persist
         message = self.__streams.write(
