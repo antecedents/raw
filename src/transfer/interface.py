@@ -5,6 +5,7 @@ import os
 import boto3
 import pandas as pd
 
+import config
 import src.elements.s3_parameters as s3p
 import src.elements.service as sr
 import src.s3.ingress
@@ -36,6 +37,7 @@ class Interface:
 
         # Instances
         self.__dictionary = src.transfer.dictionary.Dictionary()
+        self.__configurations = config.Config()
 
     def __get_metadata(self, frame: pd.DataFrame) -> pd.DataFrame:
         """
@@ -44,9 +46,12 @@ class Interface:
         :return:
         """
 
+        metadata: dict = self.__metadata.exc(name='data.json')
+        requisite: dict = {k: v for k, v in metadata.items() if k in self.__configurations.fields}
+
         frame = frame.assign(
             metadata = frame['section'].apply(
-                lambda x: self.__metadata.exc(name='data.json') if x == 'raw' else {}))
+                lambda x: metadata if x == 'raw' else requisite))
 
         return frame
 
