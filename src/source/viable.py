@@ -1,12 +1,17 @@
+"""Module viable.py"""
 import logging
 import os
+
 import pandas as pd
 
-import src.functions.streams
 import config
+import src.functions.streams
 
 
 class Viable:
+    """
+    Retains the institutions/hospitals that have a viable number of observations.
+    """
 
     def __init__(self, arguments: dict):
         """
