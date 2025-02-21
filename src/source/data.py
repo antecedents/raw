@@ -1,5 +1,4 @@
 """Module data.py"""
-import datetime
 import logging
 import os
 
@@ -30,6 +29,9 @@ class Data:
         """
 
         self.__url = url
+
+        # Instances
+        self.__streams = src.functions.streams.Streams()
 
         # Configurations
         self.__configurations = config.Config()
@@ -79,20 +81,7 @@ class Data:
 
         return data
 
-    @staticmethod
-    def __persist(blob: pd.DataFrame, path: str):
-        """
-
-        :param blob: The data being saved.
-        :param path: The storage string of a data set.
-        :return:
-        """
-
-        streams = src.functions.streams.Streams()
-
-        return streams.write(blob=blob, path=path)
-
-    def exc(self) -> None:
+    def exc(self) -> pd.DataFrame:
         """
 
         :return:
@@ -106,15 +95,10 @@ class Data:
         # The critical data fields
         data = self.__get_key_fields(data=data.copy())
         frame = self.__formats(data=data.copy())
-        logging.info(frame)
-
-        # Date Stamp: The most recent Tuesday.  The code of Tuesday is 1, hence now.weekday() - 1
-        now = datetime.datetime.now()
-        offset = (now.weekday() - 1) % 7
-        tuesday = now - datetime.timedelta(days=offset)
-        stamp = tuesday.strftime('%Y-%m-%d')
-        logging.info(stamp)
 
         # Persist
-        message = self.__persist(blob=frame, path=os.path.join(self.__configurations.data_, f'{stamp}.csv'))
-        logging.info(message)
+        message = self.__streams.write(
+            blob=frame, path=os.path.join(self.__configurations.raw_, f'{self.__configurations.stamp}.csv'))
+        logging.info('RAW -> %s', message)
+
+        return frame

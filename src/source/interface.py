@@ -8,6 +8,7 @@ import src.elements.sources
 import src.functions.directories
 import src.s3.configurations
 import src.source.data
+import src.source.viable
 
 
 class Interface:
@@ -36,9 +37,19 @@ class Interface:
         """
 
         dictionary = src.s3.configurations.Configurations(connector=self.__connector).serial(
-            key_name=self.__configurations.sources)
+            key_name=self.__configurations.sources)['parameters']
 
         return src.elements.sources.Sources(**dictionary)
+
+    def __arguments(self) -> dict:
+        """
+
+        :return:
+        """
+
+        return src.s3.configurations.Configurations(connector=self.__connector).objects(
+            key_name=('architecture' + '/' + 'arguments.json')
+        )
 
     def exc(self):
         """
@@ -50,5 +61,9 @@ class Interface:
         sources = self.__sources()
         logging.info(sources)
 
+        # The set of modelling & decomposition arguments, vis-à-vis forecasting algorithm and supplements.
+        arguments = self.__arguments()
+
         # GET
-        src.source.data.Data(url=sources.data).exc()
+        data = src.source.data.Data(url=sources.data).exc()
+        src.source.viable.Viable(arguments=arguments).exc(data=data)

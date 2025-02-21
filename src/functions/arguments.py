@@ -1,5 +1,6 @@
 """Module arguments.py"""
 import argparse
+import ast
 
 class Arguments:
     """
@@ -13,14 +14,14 @@ class Arguments:
         pass
 
     @staticmethod
-    def restart(value):
+    def restart(value) -> bool:
         """
 
         :param value:
         :return:
         """
 
-        if str(value) != 'restart':
-            raise argparse.ArgumentTypeError('The only valid value of this optional argument is restart')
+        if isinstance(ast.literal_eval(value), bool):
+            return ast.literal_eval(value)
 
-        return True
+        raise argparse.ArgumentTypeError('The only valid value of this optional argument is restart')

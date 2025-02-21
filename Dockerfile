@@ -1,5 +1,5 @@
 # Base Image
-FROM python:3.12.6-bookworm
+FROM python:3.12.8-bookworm
 
 
 # Temporary
@@ -35,7 +35,7 @@ COPY config.py /app/config.py
 
 
 # Port
-EXPOSE 8000
+EXPOSE 8050
 
 
 # Create mountpoint

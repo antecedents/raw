@@ -55,9 +55,9 @@ class Configurations:
         except yaml.YAMLError as err:
             raise err from err
 
-        return data['parameters']
+        return data
 
-    def objects(self, key_name: str):
+    def objects(self, key_name: str) -> dict | list[dict]:
         """
 
         :param key_name: <prefix> + <file name, including extension>
@@ -67,7 +67,7 @@ class Configurations:
         """
 
         try:
-            data = json.loads(self.__buffer(key_name=key_name))
+            data: dict = json.loads(self.__buffer(key_name=key_name))
         except json.JSONDecodeError as err:
             raise err from err
 

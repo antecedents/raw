@@ -52,6 +52,7 @@ class Setup:
         if len(keys) > 0:
             objects = [{'Key' : key} for key in keys]
             state = instance.delete(objects=objects)
+
             return bool(state)
 
         return True
@@ -80,9 +81,13 @@ class Setup:
         """
 
         directories = src.functions.directories.Directories()
-        directories.cleanup(path=self.__configurations.warehouse)
+        directories.cleanup(path=self.__configurations.data_)
 
-        return directories.create(path=self.__configurations.data_)
+        states = []
+        for path in [self.__configurations.raw_, self.__configurations.modelling_]:
+            states.append(directories.create(path=path))
+
+        return all(states)
 
     def exc(self) -> bool:
         """
