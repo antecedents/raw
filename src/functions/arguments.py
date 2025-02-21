@@ -1,5 +1,6 @@
 """Module arguments.py"""
 import argparse
+import ast
 
 class Arguments:
     """
@@ -20,7 +21,7 @@ class Arguments:
         :return:
         """
 
-        if isinstance(eval(value), bool):
-            return eval(value)
-        else:
-            raise argparse.ArgumentTypeError('The only valid value of this optional argument is restart')
+        if isinstance(ast.literal_eval(value), bool):
+            return ast.literal_eval(value)
+
+        raise argparse.ArgumentTypeError('The only valid value of this optional argument is restart')
