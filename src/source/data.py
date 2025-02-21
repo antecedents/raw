@@ -98,7 +98,8 @@ class Data:
         frame = self.__formats(data=data.copy())
 
         # Persist
-        self.__streams.write(
+        message = self.__streams.write(
             blob=frame, path=os.path.join(self.__configurations.raw_, f'{self.__configurations.stamp}.csv'))
+        logging.info('RAW -> %s', message)
 
         return frame
