@@ -13,14 +13,14 @@ class Arguments:
         pass
 
     @staticmethod
-    def restart(value):
+    def restart(value) -> bool:
         """
 
         :param value:
         :return:
         """
 
-        if str(value) != 'restart':
+        if isinstance(eval(value), bool):
+            return eval(value)
+        else:
             raise argparse.ArgumentTypeError('The only valid value of this optional argument is restart')
-
-        return True
