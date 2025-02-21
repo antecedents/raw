@@ -82,7 +82,7 @@ class Data:
 
         return data
 
-    def exc(self) -> None:
+    def exc(self) -> pd.DataFrame:
         """
 
         :return:
@@ -97,6 +97,8 @@ class Data:
         data = self.__get_key_fields(data=data.copy())
         frame = self.__formats(data=data.copy())
 
-
         # Persist
-        self.__streams.write(blob=frame, path=os.path.join(self.__configurations.raw_, f'{self.__configurations.stamp}.csv'))
+        self.__streams.write(
+            blob=frame, path=os.path.join(self.__configurations.raw_, f'{self.__configurations.stamp}.csv'))
+
+        return frame
