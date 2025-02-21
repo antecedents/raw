@@ -57,7 +57,7 @@ class Configurations:
 
         return data
 
-    def objects(self, key_name: str) -> dict:
+    def objects(self, key_name: str) -> dict | list[dict]:
         """
 
         :param key_name: <prefix> + <file name, including extension>
