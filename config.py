@@ -17,8 +17,9 @@ class Config:
         """
 
         # Temporary local storage
-        self.warehouse = os.path.join(os.getcwd(), 'warehouse')
-        self.data_ = os.path.join(self.warehouse, 'data', 'raw')
+        self.data_ = os.path.join(os.getcwd(), 'warehouse', 'data')
+        self.raw_ = os.path.join(self.data_, 'raw')
+        self.modelling_ = os.path.join(self.data_, 'modelling')
 
         # Configurations files, paths
         self.s3_parameters_key = 's3_parameters.yaml'
