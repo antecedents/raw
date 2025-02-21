@@ -8,6 +8,7 @@ import src.elements.sources
 import src.functions.directories
 import src.s3.configurations
 import src.source.data
+import src.source.viable
 
 
 class Interface:
@@ -64,4 +65,5 @@ class Interface:
         arguments = self.__arguments()
 
         # GET
-        src.source.data.Data(url=sources.data).exc()
+        data = src.source.data.Data(url=sources.data).exc()
+        src.source.viable.Viable(arguments=arguments).exc(data=data)
