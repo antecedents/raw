@@ -1,11 +1,28 @@
+import logging
+import os
 import pandas as pd
+
+import src.functions.streams
+import config
 
 
 class Viable:
 
     def __init__(self, arguments: dict):
+        """
+
+        :param arguments: The set of modelling & decomposition arguments, vis-à-vis forecasting
+                          algorithm and supplements.
+        """
 
         self.__arguments = arguments
+
+        # Instance
+        self.__configurations = config.Config()
+        self.__streams = src.functions.streams.Streams()
+
+        # Requisite fields
+        self.__fields = ['week_ending_date', 'health_board_code', 'hospital_code', 'n_attendances']
 
     def __filter(self, blob: pd.DataFrame):
         """
@@ -26,5 +43,17 @@ class Viable:
         return viable
 
     def exc(self, data: pd.DataFrame):
+        """
 
-        filter = self.__filter(blob=data)
+        :param data: The raw data.
+        :return:
+        """
+
+        frame = self.__filter(blob=data)
+        frame = frame.copy()[self.__fields]
+
+        # Persist
+        message = self.__streams.write(
+            blob=frame,
+            path=os.path.join(self.__configurations.modelling_, f'{self.__configurations.stamp}.csv'))
+        logging.info('VIABLE -> %s', message)
