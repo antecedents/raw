@@ -108,13 +108,8 @@ class Data:
         frame = self.__formats(data=data.copy())
         logging.info(frame)
 
-        # Date Stamp: The most recent Tuesday.  The code of Tuesday is 1, hence now.weekday() - 1
-        now = datetime.datetime.now()
-        offset = (now.weekday() - 1) % 7
-        tuesday = now - datetime.timedelta(days=offset)
-        stamp = tuesday.strftime('%Y-%m-%d')
-        logging.info(stamp)
+
 
         # Persist
-        message = self.__persist(blob=frame, path=os.path.join(self.__configurations.data_, f'{stamp}.csv'))
+        message = self.__persist(blob=frame, path=os.path.join(self.__configurations.data_, f'{self.__configurations.stamp}.csv'))
         logging.info(message)
