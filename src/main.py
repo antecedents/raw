@@ -56,7 +56,7 @@ if __name__ == '__main__':
     arguments = src.functions.arguments.Arguments()
     parser = argparse.ArgumentParser()
     parser.add_argument('--restart', type=arguments.restart,
-                        help='The only valid string is restart, which deletes raw data assets.')
+                        help='The valid strings are True, which deletes raw data assets, or False, which leaves the assets alone.')
     args = parser.parse_args()
 
     # Restart
