@@ -31,6 +31,9 @@ class Data:
 
         self.__url = url
 
+        # Instances
+        self.__streams = src.functions.streams.Streams()
+
         # Configurations
         self.__configurations = config.Config()
         self.__rename = {
@@ -79,19 +82,6 @@ class Data:
 
         return data
 
-    @staticmethod
-    def __persist(blob: pd.DataFrame, path: str):
-        """
-
-        :param blob: The data being saved.
-        :param path: The storage string of a data set.
-        :return:
-        """
-
-        streams = src.functions.streams.Streams()
-
-        return streams.write(blob=blob, path=path)
-
     def exc(self) -> None:
         """
 
@@ -106,10 +96,7 @@ class Data:
         # The critical data fields
         data = self.__get_key_fields(data=data.copy())
         frame = self.__formats(data=data.copy())
-        logging.info(frame)
-
 
 
         # Persist
-        message = self.__persist(blob=frame, path=os.path.join(self.__configurations.data_, f'{self.__configurations.stamp}.csv'))
-        logging.info(message)
+        self.__streams.write(blob=frame, path=os.path.join(self.__configurations.raw_, f'{self.__configurations.stamp}.csv'))
