@@ -2,6 +2,7 @@
 import logging
 import os
 
+import numpy as np
 import pandas as pd
 
 import config
@@ -26,7 +27,7 @@ class Viable:
         self.__configurations = config.Config()
         self.__streams = src.functions.streams.Streams()
 
-    def __filter(self, blob: pd.DataFrame):
+    def __codes(self, blob: pd.DataFrame) -> np.ndarray:
         """
 
         :param blob:
@@ -42,7 +43,7 @@ class Viable:
         viable: pd.DataFrame = counts.loc[counts['count'] >= (
                 self.__arguments.get('seasons') * self.__arguments.get('cycles')), :]
 
-        return viable
+        return viable['hospital_code'].to_numpy()
 
     def exc(self, data: pd.DataFrame):
         """
@@ -51,8 +52,8 @@ class Viable:
         :return:
         """
 
-        frame = self.__filter(blob=data)
-        frame = frame.copy()[self.__configurations.fields]
+        codes = self.__codes(blob=data)
+        frame = data.copy().loc[data['hospital_code'].isin(codes), self.__configurations.fields]
 
         # Persist
         message = self.__streams.write(
