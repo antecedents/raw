@@ -60,5 +60,8 @@ class Interface:
         sources = self.__sources()
         logging.info(sources)
 
+        # The set of modelling & decomposition arguments, vis-à-vis forecasting algorithm and supplements.
+        arguments = self.__arguments()
+
         # GET
         src.source.data.Data(url=sources.data).exc()
