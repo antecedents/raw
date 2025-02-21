@@ -32,3 +32,6 @@ class Config:
         offset = (now.weekday() - 1) % 7
         tuesday = now - datetime.timedelta(days=offset)
         self.stamp = tuesday.strftime('%Y-%m-%d')
+
+        # Requisite fields
+        self.fields = ['week_ending_date', 'health_board_code', 'hospital_code', 'n_attendances']
