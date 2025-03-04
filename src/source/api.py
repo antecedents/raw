@@ -25,7 +25,7 @@ class API:
         :return:
         """
 
-        with urllib.request.urlopen(url=url) as blob:
+        with urllib.request.urlopen(url=url, timeout=600) as blob:
             objects = blob.read()
         dictionary = json.loads(s=objects)
 
