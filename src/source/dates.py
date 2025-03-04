@@ -83,5 +83,5 @@ class Dates:
             computations.append(frame)
         calculations = dask.compute(computations, scheduler='threads')[0]
         data = pd.concat(calculations, axis=0, ignore_index=True)
-        
+
         return data
