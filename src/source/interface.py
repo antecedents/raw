@@ -49,7 +49,7 @@ class Interface:
         """
 
         return src.s3.configurations.Configurations(connector=self.__connector).objects(
-            key_name=('architecture' + '/' + 'arguments.json')
+            key_name=('settings' + '/' + 'arguments.json')
         )
 
     def exc(self):
