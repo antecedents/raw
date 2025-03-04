@@ -9,6 +9,7 @@ import src.functions.directories
 import src.s3.configurations
 import src.source.data
 import src.source.viable
+import src.source.dates
 
 
 class Interface:
@@ -66,4 +67,5 @@ class Interface:
 
         # GET
         data = src.source.data.Data(url=sources.data).exc()
+        data = src.source.dates.Dates(data=data).exc()
         src.source.viable.Viable(arguments=arguments).exc(data=data)
