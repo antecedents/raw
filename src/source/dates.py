@@ -1,5 +1,4 @@
 """Module dates.py"""
-import logging
 
 import dask
 import pandas as pd
@@ -14,13 +13,13 @@ class Dates:
     assume that the points of an institution's series are contiguous.  Do not use this class yet.
     """
 
-    def __init__(self, frame: pd.DataFrame):
+    def __init__(self, data: pd.DataFrame):
         """
 
-        :param frame:
+        :param data:
         """
 
-        self.__frame = frame
+        self.__data = data
 
     @dask.delayed
     def __indices(self, blob: pd.DataFrame) -> pd.DataFrame:
@@ -36,7 +35,6 @@ class Dates:
         indices: pd.DataFrame = pd.date_range(start=minimum, end=maximum, inclusive='both', freq='W-SUN').to_frame()
         indices.reset_index(drop=True, inplace=True)
         indices.rename(columns={0: 'week_ending_date'}, inplace=True)
-        logging.info(indices)
 
         return indices
 
@@ -48,7 +46,7 @@ class Dates:
         :return:
         """
 
-        return self.__frame.copy().loc[self.__frame['hospital_code'] == code, :]
+        return self.__data.copy().loc[self.__data['hospital_code'] == code, :]
 
     @dask.delayed
     def __dates(self, indices: pd.DataFrame, blob: pd.DataFrame) -> pd.DataFrame:
@@ -75,7 +73,7 @@ class Dates:
         :return:
         """
 
-        codes = self.__frame['hospital_code'].unique()
+        codes = self.__data['hospital_code'].unique()
 
         computations = []
         for code in codes:
@@ -85,7 +83,5 @@ class Dates:
             computations.append(frame)
         calculations = dask.compute(computations, scheduler='threads')[0]
         data = pd.concat(calculations, axis=0, ignore_index=True)
-        data.to_csv(path_or_buf='test.csv', index=False, header=True, encoding='utf-8')
-        logging.info(data)
-
+        
         return data
