@@ -46,7 +46,11 @@ class Dates:
         :return:
         """
 
-        return self.__data.copy().loc[self.__data['hospital_code'] == code, :]
+        excerpt = self.__data.copy().loc[self.__data['hospital_code'] == code, :]
+        excerpt = excerpt.copy().groupby(by=['week_ending_date', 'health_board_code', 'hospital_code']).sum()
+        excerpt.reset_index(drop=False, inplace=True)
+
+        return excerpt
 
     @dask.delayed
     def __dates(self, indices: pd.DataFrame, blob: pd.DataFrame) -> pd.DataFrame:
@@ -58,7 +62,7 @@ class Dates:
         """
 
         # Common Values
-        fields = ['health_board_code', 'hospital_code', 'department_type', 'attendance_category']
+        fields = ['health_board_code', 'hospital_code']
         reference = blob[fields].drop_duplicates().values
 
         # Ascertaining all date points within a range
