@@ -25,6 +25,7 @@ class Config:
         # Configurations files, paths
         self.s3_parameters_key = 's3_parameters.yaml'
         self.sources = 'sources.yaml'
+        self.attributes = 'attributes.yaml'
         self.metadata_ = 'source'
 
         # Date Stamp: The most recent Tuesday.  The code of Tuesday is 1, hence now.weekday() - 1
