@@ -24,4 +24,5 @@ class Arguments:
         if isinstance(ast.literal_eval(value), bool):
             return ast.literal_eval(value)
 
-        raise argparse.ArgumentTypeError('The only valid value of this optional argument is restart')
+        raise argparse.ArgumentTypeError('The valid strings are True, which deletes raw data assets, or '
+                                         'False, which leaves the assets alone.')
