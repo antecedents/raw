@@ -28,7 +28,7 @@ class Interface:
         # Hence
         self.__configurations = config.Config()
 
-    def __sources(self):
+    def __get_dictionary(self, key_name: str):
         """
         Retrieves the uniform resource locator strings of the data, and its references.
 
@@ -36,19 +36,9 @@ class Interface:
         """
 
         dictionary = src.s3.configurations.Configurations(connector=self.__connector).serial(
-            key_name=self.__configurations.sources)['parameters']
+            key_name=key_name)['parameters']
 
-        return src.elements.sources.Sources(**dictionary)
-
-    def __arguments(self) -> dict:
-        """
-
-        :return:
-        """
-
-        return src.s3.configurations.Configurations(connector=self.__connector).objects(
-            key_name=('settings' + '/' + 'arguments.json')
-        )
+        return dictionary
 
     def exc(self):
         """
@@ -57,11 +47,13 @@ class Interface:
         """
 
         # The uniform resource locator strings of the references & data
-        sources = self.__sources()
+        dictionary = self.__get_dictionary(key_name=self.__configurations.sources)
+        sources = src.elements.sources.Sources(**dictionary)
         logging.info(sources)
 
         # The set of modelling & decomposition arguments, vis-à-vis forecasting algorithm and supplements.
-        arguments = self.__arguments()
+        arguments = self.__get_dictionary(key_name=self.__configurations.attributes)
+        logging.info(arguments)
 
         # GET
         data = src.source.data.Data(url=sources.data).exc()
